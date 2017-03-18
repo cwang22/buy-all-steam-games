@@ -44,7 +44,6 @@ class GetPrices extends Command
         $chunks = array_chunk($app_ids,$size);
         $initial_price = 0;
         $final_price = 0;
-        $i = 0;
         foreach($chunks as $chunk) {
             $id = implode(",", $chunk);
             $results = $this->get_contents("http://store.steampowered.com/api/appdetails/?appids=$id&cc=US&l=english&v=1&filters=price_overview");
@@ -55,8 +54,6 @@ class GetPrices extends Command
                 }
             }
             sleep(1);
-            $i++;
-            if($i > 20) break;
         }
 
         Storage::put("price.dat","$initial_price $final_price");
