@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class Fetch extends Command
 {
@@ -43,6 +45,9 @@ class Fetch extends Command
         $appids = array_column($contents["applist"]["apps"], 'appid');
         $appidLists = array_chunk($appids, $this->fetchSize);
 
+        $count = count($appids);
+        $minute = ceil($count / 60 / $this->fetchSize);
+        $this->info("Fetching in total of $count games/DLC, it may takes $minute minutes.");
         $bar = $this->output->createProgressBar(count($appidLists));
 
         foreach ($appidLists as $list) {
@@ -93,6 +98,13 @@ class Fetch extends Command
      */
     private function store($original, $sale)
     {
-        if ($this->storage == 'file') Storage::put("price.dat", "$original,$sale");
+        $price = [
+            'original' => $original,
+            'sale' => $sale,
+            'updated_at' => Carbon::now()->getTimestamp()
+        ];
+        if ($this->storage == 'file') {
+            Storage::put("price.json", json_encode($price));
+        }
     }
 }
