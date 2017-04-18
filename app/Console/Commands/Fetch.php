@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Core\Steam;
 use Illuminate\Console\Command;
 
 class Fetch extends Command
