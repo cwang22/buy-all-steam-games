@@ -16,7 +16,7 @@ class SteamController extends Controller
         $prices = json_decode(Storage::get('price.json'));
         $prices->original /= 100;
         $prices->sale /= 100;
-        $prices->updated_at = Carbon::createFromTimestamp($prices->updated_at)->diffForHumans();
+        $prices->updated_at = (new Carbon($prices->updated_at))->diffForHumans();
         return view('home', ['prices' => $prices]);
     }
 
@@ -31,7 +31,6 @@ class SteamController extends Controller
         $prices = json_decode(Storage::get('price.json'));
         $prices->original /= 100;
         $prices->sale /= 100;
-        $prices->updated_at = Carbon::createFromTimestamp($prices->updated_at)->toDateTimeString();
         return response()->json($prices);
     }
 
