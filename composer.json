@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "cwang22/BuyAllSteamGames",
+    "description": "How much does it cost to buy all Steam games?",
+    "keywords": ["framework", "laravel", "Steam"],
     "license": "MIT",
     "type": "project",
     "require": {
