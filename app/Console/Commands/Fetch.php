@@ -101,7 +101,7 @@ class Fetch extends Command
         $price = [
             'original' => $original,
             'sale' => $sale,
-            'updated_at' => Carbon::now()->getTimestamp()
+            'updated_at' => Carbon::now()->toDateTimeString()
         ];
         if ($this->storage == 'file') {
             Storage::put("price.json", json_encode($price));
