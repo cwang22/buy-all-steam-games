@@ -16,4 +16,12 @@ class SteamController extends Controller
         return view('home',['prices' => $prices]);
     }
 
+    public function json() {
+        $prices = json_decode(Storage::get('price.json'));
+        $prices->original /= 100;
+        $prices->sale /= 100;
+        $prices->updated_at = Carbon::createFromTimestamp($prices->updated_at)->toDateTimeString();
+        return response()->json($prices);
+    }
+
 }
