@@ -46,8 +46,8 @@ class Fetch extends Command
         $appidLists = array_chunk($appids, $this->fetchSize);
 
         $count = count($appids);
-        $minute = ceil($count / 60 / $this->fetchSize);
-        $this->info("Fetching in total of $count games/DLC, it may takes $minute minutes.");
+        $minute = ceil($count / 60 / $this->fetchSize * 2);
+        $this->info("Fetching in total of $count games/DLC, it may take $minute minutes.");
         $bar = $this->output->createProgressBar(count($appidLists));
 
         foreach ($appidLists as $list) {
@@ -65,7 +65,7 @@ class Fetch extends Command
             $bar->advance();
 
             //sleep 1 seconds so it does not exceed access limit
-            sleep(1);
+            sleep(2);
         }
         $this->store($original, $sale);
     }
