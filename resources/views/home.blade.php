@@ -54,6 +54,15 @@
                         href="http://buyallofsteam.appspot.com/">http://buyallofsteam.appspot.com/</a>, which does
                 exactly the same thing, but haven't updated since 2014.</p>
             <p>This page however is based on PHP and Laravel, and automatically fetch data every week.</p>
+            <h2 class="page-header">API</h2>
+            <p>You can hit <code>{{url('api')}}</code> to get the latest data. It should looks like this.</p>
+            <pre>
+                {
+                    "original":12345.67,
+                    "sale":12345.67,
+                    "updated_at":"2017-01-11 12:00:00"
+                }
+            </pre>
 
             <h2 class="page-header">Github</h2>
             <p>You can find the Github Repo below, if you like this page, make sure give it a star!</p>
