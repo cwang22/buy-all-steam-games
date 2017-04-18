@@ -11,8 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    $prices = explode(' ',Storage::get('price.dat'));
-
-    return view('home', ['init' => $prices[0] / 100, 'final' =>$prices[1] / 100]);
-});
+Route::get('/', 'SteamController@index');
