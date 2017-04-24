@@ -10,23 +10,17 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
-        html {
-            position: relative;
-            min-height: 100%;
-        }
-
         body {
             font-family: 'Open Sans', sans-serif;
-            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            /* Set the fixed height of the footer here */
-            height: 60px;
+        #main {
+            flex: 1;
         }
+
         h1,h2 {
             color: #159957;
         }
@@ -39,14 +33,15 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div id="main" class="container">
     <div class="row">
         <div id="showcase" class="col-lg-8">
             <h1 class="page-header">Buy All Steam Games</h1>
             <p>Ever wonder how much does it costs to buy all games from Steam?</p>
             <p>Well, it costs <span class="text-danger">${{ number_format($prices->sale,2) }}</span> at the moment, which originally
                 costs <span class="text-danger">${{ number_format($prices->original,2) }}</span> on full price.</p>
-            <p>This page was last updated {{ $prices->updated_at }}, based on price of the US region.</p>
+            <p>This page was last updated {{ $prices->updated_at }}, based on price of the US region.
+            </p>
 
 
             <h2 class="page-header">How does it work?</h2>
