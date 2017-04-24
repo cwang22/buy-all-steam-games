@@ -19,4 +19,9 @@ class Record extends Model
         return number_format($value / 100, 2);
     }
 
+    public function getLanguageAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
 }

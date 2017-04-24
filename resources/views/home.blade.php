@@ -21,12 +21,14 @@
             flex: 1;
         }
 
-        h1,h2 {
+        h1, h2 {
             color: #159957;
         }
+
         #showcase p {
             font-size: 1.8rem;
         }
+
         .img-responsive {
             margin-top: 86px;
         }
@@ -40,7 +42,8 @@
             <p>Ever wonder how much does it costs to buy all games from Steam?</p>
             <p>Well, it costs <span class="text-danger">${{ $prices->sale }}</span> at the moment, which originally
                 costs <span class="text-danger">${{ $prices->original }}</span> on full price.</p>
-            <p>This page was last updated {{ $prices->updated_at->diffForHumans() }}, based on price of the US region.
+            <p>This page was last updated {{ $prices->updated_at->diffForHumans() }}, based on price of
+                the {{$prices->cc}} region and {{$prices->language}} language.
             </p>
 
 
@@ -52,11 +55,13 @@
             <h2 class="page-header">API</h2>
             <p>You can hit <code>{{url('api')}}</code> to get the latest data. It should looks like this.</p>
             <pre>
-                {
-                    "original":12345.67,
-                    "sale":12345.67,
-                    "updated_at":"2017-01-11 12:00:00"
-                }
+            {
+                "original": 233448.27,
+                "sale": 229259.34,
+                "cc": "US"
+                "language": "english"
+                "updated_at": "2017-04-18 14:10:59"
+            }
             </pre>
 
             <h2 class="page-header">Github</h2>
