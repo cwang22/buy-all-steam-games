@@ -38,9 +38,9 @@
         <div id="showcase" class="col-lg-8">
             <h1 class="page-header">Buy All Steam Games</h1>
             <p>Ever wonder how much does it costs to buy all games from Steam?</p>
-            <p>Well, it costs <span class="text-danger">${{ number_format($prices->sale,2) }}</span> at the moment, which originally
-                costs <span class="text-danger">${{ number_format($prices->original,2) }}</span> on full price.</p>
-            <p>This page was last updated {{ $prices->updated_at }}, based on price of the US region.
+            <p>Well, it costs <span class="text-danger">${{ $prices->sale }}</span> at the moment, which originally
+                costs <span class="text-danger">${{ $prices->original }}</span> on full price.</p>
+            <p>This page was last updated {{ $prices->updated_at->diffForHumans() }}, based on price of the US region.
             </p>
 
 

@@ -2,19 +2,27 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
+use App\Record;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class Fetch extends Command
 {
-    protected $fetchSize = 125;
+    /**
+     * Number of apps per requests
+     *
+     * @var integer
+     */
+    protected $fetch_size;
 
-    protected $storage = 'file';
+    /**
+     * Country code of region to fetch
+     *
+     * @var string
+     */
+    protected $cc;
 
-    protected $cc = 'US';
-
-    protected $language = 'english';
+    /** @var string */
+    protected $language;
 
     /**
      * The name and signature of the console command.
@@ -30,6 +38,14 @@ class Fetch extends Command
      */
     protected $description = 'fetches amount of prices of all Steam games';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->fetch_size = config('steam.fetch_size') || 125;
+        $this->language = config('steam.language') || 'english';
+        $this->cc = config('steam.cc') || 'US';
+    }
+
     /**
      * Execute the console command.
      *
@@ -43,10 +59,10 @@ class Fetch extends Command
         // fetch appid of all games
         $contents = self::fetch("http://api.steampowered.com/ISteamApps/GetAppList/v2");
         $appids = array_column($contents["applist"]["apps"], 'appid');
-        $appidLists = array_chunk($appids, $this->fetchSize);
+        $appidLists = array_chunk($appids, $this->fetch_size);
 
         $count = count($appids);
-        $minute = ceil($count / 60 / $this->fetchSize * 2);
+        $minute = ceil($count / 60 / $this->fetch_size * 2);
         $this->info("Fetching in total of $count games/DLC, it may take $minute minutes.");
         $bar = $this->output->createProgressBar(count($appidLists));
 
@@ -71,7 +87,7 @@ class Fetch extends Command
     }
 
     /**
-     * fetch given url and decode json result.
+     * Fetch given url and decode json result.
      * @param $url
      * @return mixed
      */
@@ -82,7 +98,7 @@ class Fetch extends Command
     }
 
     /**
-     * construct API URL for given appid.
+     * Construct API URL for given appid.
      * @param $appid
      * @return string
      */
@@ -92,19 +108,17 @@ class Fetch extends Command
     }
 
     /**
-     * store fetched prices.
+     * Store fetched prices.
      * @param $original number
      * @param $sale number
      */
     private function store($original, $sale)
     {
-        $price = [
-            'original' => $original,
+        Record::create([
+            'orignal' => $original,
             'sale' => $sale,
-            'updated_at' => Carbon::now()->toDateTimeString()
-        ];
-        if ($this->storage == 'file') {
-            Storage::put("price.json", json_encode($price));
-        }
+            'cc' => $this->cc,
+            'language' => $this->language
+        ]);
     }
 }
