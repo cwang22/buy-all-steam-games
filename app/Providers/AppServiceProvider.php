@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($tracking = env('GOOGLE_ANALYTICS_TRACKING_ID')) {
+            View::composer('home', function ($view) use ($tracking) {
+                $view->with('tracking', $tracking);
+            });
+        }
         Schema::defaultStringLength(191);
     }
 
