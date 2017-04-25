@@ -11,12 +11,12 @@ class Record extends Model
 
     public function getOriginalAttribute($value)
     {
-        return number_format($value / 100, 2);
+        return number_format($value, 2);
     }
 
     public function getSaleAttribute($value)
     {
-        return number_format($value / 100, 2);
+        return number_format($value, 2);
     }
 
     public function getLanguageAttribute($value)

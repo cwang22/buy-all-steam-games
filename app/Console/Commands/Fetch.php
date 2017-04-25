@@ -115,8 +115,8 @@ class Fetch extends Command
     private function store($original, $sale)
     {
         Record::create([
-            'orignal' => $original,
-            'sale' => $sale,
+            'orignal' => $original / 100,
+            'sale' => $sale / 100,
             'cc' => $this->cc,
             'language' => $this->language
         ]);
