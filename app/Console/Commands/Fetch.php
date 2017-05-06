@@ -41,9 +41,9 @@ class Fetch extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->fetch_size = config('steam.fetch_size') || 125;
-        $this->language = config('steam.language') || 'english';
-        $this->cc = config('steam.cc') || 'US';
+        $this->fetch_size = config('steam.fetch_size') | 125;
+        $this->language = config('steam.language') | 'english';
+        $this->cc = config('steam.cc') | 'US';
     }
 
     /**
@@ -55,7 +55,6 @@ class Fetch extends Command
     {
         $original = 0.0;
         $sale = 0.0;
-
         // fetch appid of all games
         $contents = self::fetch("http://api.steampowered.com/ISteamApps/GetAppList/v2");
         $appids = array_column($contents["applist"]["apps"], 'appid');
