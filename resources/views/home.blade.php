@@ -40,11 +40,12 @@
         <div id="showcase" class="col-lg-8">
             <h1 class="page-header">Buy All Steam Games</h1>
             <p>Ever wonder how much does it costs to buy all games from Steam?</p>
-            <p>Well, it costs <span class="text-danger">${{ $price->sale }}</span> at the moment, which originally
-                costs <span class="text-danger">${{ $price->original }}</span> on full price.</p>
-            <p>This page was last updated {{ $price->updated_at->diffForHumans() }}, based on price of
-                the {{$price->cc}} region and {{$price->language}} language.
+            <p>Well, it costs <span class="text-danger">${{ $prices->sale }}</span> at the moment, which originally
+                costs <span class="text-danger">${{ $prices->original }}</span> on full price.</p>
+            <p>This page was last updated {{ $prices->updated_at->diffForHumans() }}, based on price of
+                the {{$prices->cc}} region and {{$prices->language}} language.
             </p>
+
 
             <h2 class="page-header">How does it work?</h2>
             <p>This page was inspired by <a
@@ -90,10 +91,6 @@
 </footer>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js" integrity="sha256-VNbX9NjQNRW+Bk02G/RO6WiTKuhncWI4Ey7LkSbE+5s=" crossorigin="anonymous"></script>
-<script>
-
-</script>
 @if($tracking)
     @include('layouts.analytics')
 @endif
