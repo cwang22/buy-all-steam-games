@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Record;
+use Exception;
 use Illuminate\Console\Command;
+use Log;
 
 class Fetch extends Command
 {
@@ -53,36 +55,40 @@ class Fetch extends Command
      */
     public function handle()
     {
-        $original = 0.0;
-        $sale = 0.0;
-        // fetch appid of all games
-        $contents = self::fetch("http://api.steampowered.com/ISteamApps/GetAppList/v2");
-        $appids = array_column($contents["applist"]["apps"], 'appid');
-        $appidLists = array_chunk($appids, $this->fetch_size);
+        try {
+            $original = 0.0;
+            $sale = 0.0;
+            // fetch appid of all games
+            $contents = self::fetch("http://api.steampowered.com/ISteamApps/GetAppList/v2");
+            $appids = array_column($contents["applist"]["apps"], 'appid');
+            $appidLists = array_chunk($appids, $this->fetch_size);
 
-        $count = count($appids);
-        $minute = ceil($count / 60 / $this->fetch_size * 2);
-        $this->info("Fetching in total of $count games/DLC, it may take $minute minutes.");
-        $bar = $this->output->createProgressBar(count($appidLists));
+            $count = count($appids);
+            $minute = ceil($count / 60 / $this->fetch_size * 2);
+            $this->info("Fetching in total of $count games/DLC, it may take $minute minutes.");
+            $bar = $this->output->createProgressBar(count($appidLists));
 
-        foreach ($appidLists as $list) {
-            // fetch price of games in current list
-            $appid = implode(",", $list);
-            $results = self::fetch($this->apiUrl($appid));
+            foreach ($appidLists as $list) {
+                // fetch price of games in current list
+                $appid = implode(",", $list);
+                $results = self::fetch($this->apiUrl($appid));
 
-            foreach ($results as $result) {
-                if (isset($result["data"]["price_overview"])) {
-                    $original += $result["data"]["price_overview"]["initial"];
-                    $sale += $result["data"]["price_overview"]["final"];
+                foreach ($results as $result) {
+                    if (isset($result["data"]["price_overview"])) {
+                        $original += $result["data"]["price_overview"]["initial"];
+                        $sale += $result["data"]["price_overview"]["final"];
+                    }
                 }
+
+                $bar->advance();
+
+                //sleep 1 seconds so it does not exceed access limit
+                sleep(2);
             }
-
-            $bar->advance();
-
-            //sleep 1 seconds so it does not exceed access limit
-            sleep(2);
+            $this->store($original, $sale);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
-        $this->store($original, $sale);
     }
 
     /**
