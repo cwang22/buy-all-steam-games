@@ -1,49 +1,14 @@
-<!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <title>How much does it costs to buy all Steam games</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        #main {
-            flex: 1;
-        }
-
-        h1, h2 {
-            color: #159957;
-        }
-
-        #showcase p {
-            font-size: 1.8rem;
-        }
-
-        .img-responsive {
-            margin-top: 86px;
-        }
-    </style>
-</head>
-<body>
-<div id="main" class="container">
+@section('content')
     <div class="row">
         <div id="showcase" class="col-lg-8">
             <h1 class="page-header">Buy All Steam Games</h1>
             <p>Ever wonder how much does it costs to buy all games from Steam?</p>
-            <p>Well, it costs <span class="text-danger">${{ $prices->sale }}</span> at the moment, which originally
-                costs <span class="text-danger">${{ $prices->original }}</span> on full price.</p>
-            <p>This page was last updated {{ $prices->updated_at->diffForHumans() }}, based on price of
-                the {{$prices->cc}} region and {{$prices->language}} language.
+            <p>Well, it costs <span class="text-danger">${{ $price->sale }}</span> at the moment, which originally
+                costs <span class="text-danger">${{ $price->original }}</span> on full price.</p>
+            <p>This page was last updated {{ $price->updated_at->diffForHumans() }}, based on price of
+                the {{$price->cc}} region and {{$price->language}} language.
             </p>
 
 
@@ -79,20 +44,4 @@
             <img class="img-responsive" src="{{ asset('images/gaben.jpg') }}" alt="gaben">
         </div>
     </div>
-</div>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <p>&copy {{ date('Y') }} <a href="https://seewang.me">seewang.me</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-@if($tracking)
-    @include('layouts.analytics')
-@endif
-</body>
-</html>
+@endsection
