@@ -8,13 +8,13 @@ class SteamController extends Controller
 {
     public function index()
     {
-        $prices = Record::latest()->get();
+        $records = Record::latest()->get();
 
-        if (!$prices) {
+        if (!$records) {
             return 'No price data available. Please run <code>php artisan fetch</code> to fetch data.';
         }
 
-        return view('home', ['price' => $prices->first(), 'prices' => $prices]);
+        return view('home', ['record' => $records->first(), 'records' => $records]);
     }
 
     public function json()
