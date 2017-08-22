@@ -32,12 +32,10 @@
             <h2 class="page-header">Github</h2>
             <p>You can find the Github Repo below, if you like this page, make sure give it a star!</p>
             <div>
-                <a class="github-button" href="https://github.com/cwang22" data-style="mega"
-                   aria-label="Follow @cwang22 on GitHub">Follow @cwang22</a>
                 <!-- Place this tag where you want the button to render. -->
-                <a class="github-button" href="https://github.com/cwang22/buy-all-steam-games" data-icon="octicon-star"
-                   data-style="mega" aria-label="Star cwang22/buy-all-steam-games on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/cwang22" data-size="large" aria-label="Follow @cwang22 on GitHub">Follow @cwang22</a>
                 <!-- Place this tag where you want the button to render. -->
+                <a class="github-button" href="https://github.com/cwang22/buy-all-steam-games" data-icon="octicon-star" data-size="large" aria-label="Star cwang22/buy-all-steam-games on GitHub">Star</a>
             </div>
         </div>
         <div class="col-lg-4">
