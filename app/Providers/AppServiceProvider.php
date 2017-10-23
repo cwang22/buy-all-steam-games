@@ -16,11 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($tracking = env('GOOGLE_ANALYTICS_TRACKING_ID')) {
-            View::composer('home', function ($view) use ($tracking) {
-                $view->with('tracking', $tracking);
-            });
-        }
+        $tracking = env('GOOGLE_ANALYTICS_TRACKING_ID') || false;
+        View::composer('home', function ($view) use ($tracking) {
+            $view->with('tracking', $tracking);
+        });
         Schema::defaultStringLength(191);
     }
 
