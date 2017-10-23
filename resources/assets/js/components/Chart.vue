@@ -4,20 +4,21 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 import Chart from 'chart.js'
 export default {
   props: ['records'],
   mounted() {
     const sale = this.records.map(item => {
       return {
-        x: new Date(item.created_at),
+        x: new moment(item.created_at),
         y: new Number(item.sale.replace(',', ''))
       }
     })
 
     const original = this.records.map(item => {
       return {
-        x: new Date(item.created_at),
+        x: new moment(item.created_at),
         y: new Number(item.original.replace(',', ''))
       }
     })
@@ -50,16 +51,7 @@ export default {
         scales: {
           xAxes: [
             {
-              scaleLabel: {
-                display: true
-              },
-              type: 'time',
-              time: {
-                tooltipFormat: 'YYYY-MM-DD',
-                unit: 'week'
-              },
-
-              position: 'bottom'
+              type: 'time'
             }
           ]
         }
