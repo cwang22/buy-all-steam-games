@@ -8,6 +8,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
     "chart.js": "^2.7.0",
     "cross-env": "^3.2.3",
     "laravel-mix": "^0.8.3",
