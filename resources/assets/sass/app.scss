@@ -7,17 +7,3 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-#app {
-  flex: 1;
-}
-
-.img-responsive {
-  margin-top: 86px;
-}
