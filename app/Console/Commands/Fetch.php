@@ -10,14 +10,14 @@ use Log;
 class Fetch extends Command
 {
     /**
-     * Number of apps per requests
+     * Number of apps per requests.
      *
-     * @var integer
+     * @var int
      */
     protected $fetch_size;
 
     /**
-     * Country code of region to fetch
+     * Country code of region to fetch.
      *
      * @var string
      */
@@ -59,8 +59,8 @@ class Fetch extends Command
             $original = 0.0;
             $sale = 0.0;
             // fetch appid of all games
-            $contents = self::fetch("http://api.steampowered.com/ISteamApps/GetAppList/v2");
-            $appids = array_column($contents["applist"]["apps"], 'appid');
+            $contents = self::fetch('http://api.steampowered.com/ISteamApps/GetAppList/v2');
+            $appids = array_column($contents['applist']['apps'], 'appid');
             $appidLists = array_chunk($appids, $this->fetch_size);
 
             $count = count($appids);
@@ -70,13 +70,13 @@ class Fetch extends Command
 
             foreach ($appidLists as $list) {
                 // fetch price of games in current list
-                $appid = implode(",", $list);
+                $appid = implode(',', $list);
                 $results = self::fetch($this->apiUrl($appid));
 
                 foreach ($results as $result) {
-                    if (isset($result["data"]["price_overview"])) {
-                        $original += $result["data"]["price_overview"]["initial"];
-                        $sale += $result["data"]["price_overview"]["final"];
+                    if (isset($result['data']['price_overview'])) {
+                        $original += $result['data']['price_overview']['initial'];
+                        $sale += $result['data']['price_overview']['final'];
                     }
                 }
 
@@ -93,18 +93,23 @@ class Fetch extends Command
 
     /**
      * Fetch given url and decode json result.
+     *
      * @param $url
+     *
      * @return mixed
      */
     private static function fetch($url)
     {
         $content = file_get_contents($url);
+
         return json_decode($content, true);
     }
 
     /**
      * Construct API URL for given appid.
+     *
      * @param $appid
+     *
      * @return string
      */
     private function apiUrl($appid)
@@ -114,6 +119,7 @@ class Fetch extends Command
 
     /**
      * Store fetched prices.
+     *
      * @param $original number
      * @param $sale number
      */
@@ -121,9 +127,9 @@ class Fetch extends Command
     {
         Record::create([
             'original' => $original / 100,
-            'sale' => $sale / 100,
-            'cc' => $this->cc,
-            'language' => $this->language
+            'sale'     => $sale / 100,
+            'cc'       => $this->cc,
+            'language' => $this->language,
         ]);
     }
 }
