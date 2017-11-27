@@ -17,8 +17,8 @@ use App\Record;
 $factory->define(Record::class, function (Faker\Generator $faker) {
     return [
         'original' => $faker->randomFloat(2),
-        'sale' => $faker->randomFloat(2),
-        'cc' => 'US',
-        'language' => 'english'
+        'sale'     => $faker->randomFloat(2),
+        'cc'       => 'US',
+        'language' => 'english',
     ];
 });

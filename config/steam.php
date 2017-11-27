@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cc' => 'US',
-    'language' => 'english',
-    'fetch_size' => 125
+    'cc'         => 'US',
+    'language'   => 'english',
+    'fetch_size' => 125,
 ];

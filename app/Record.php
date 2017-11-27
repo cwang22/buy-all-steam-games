@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Record extends Model
 {
     protected $guarded = [];
-    protected $hidden = ['id','updated_at'];
+    protected $hidden = ['id', 'updated_at'];
 
     public function getOriginalAttribute($value)
     {
@@ -23,5 +23,4 @@ class Record extends Model
     {
         return ucfirst($value);
     }
-
 }

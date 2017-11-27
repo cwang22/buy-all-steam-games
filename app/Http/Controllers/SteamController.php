@@ -24,11 +24,10 @@ class SteamController extends Controller
         if (!$prices) {
             return response()->json([
                 'success' => false,
-                'message' => 'No price data available.'
+                'message' => 'No price data available.',
             ]);
         }
 
         return $prices;
     }
-
 }

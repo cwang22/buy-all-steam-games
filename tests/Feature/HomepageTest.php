@@ -23,7 +23,7 @@ class HomepageTest extends TestCase
 
         $this->get('/api')
             ->assertJsonFragment([
-                'original' => $record->original
+                'original' => $record->original,
             ]);
     }
 }

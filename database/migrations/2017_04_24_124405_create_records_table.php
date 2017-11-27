@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRecordsTable extends Migration
 {
@@ -17,8 +17,8 @@ class CreateRecordsTable extends Migration
             $table->increments('id');
             $table->decimal('original');
             $table->decimal('sale');
-            $table->string('cc',2);
-            $table->string('language',20);
+            $table->string('cc', 2);
+            $table->string('language', 20);
             $table->timestamps();
         });
     }
