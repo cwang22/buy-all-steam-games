@@ -10,22 +10,20 @@ class HomepageTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function it_works ()
+    public function it_works()
     {
         $this->get('/')->assertSuccessful();
     }
 
     /** @test */
-    public function api_works ()
+    public function api_works()
     {
         $this->get('/api')->assertSuccessful();
     }
 
     /** @test */
-    public function it_display_message_when_no_data_avaliable ()
+    public function it_display_message_when_no_data_avaliable()
     {
         $this->get('/')->assertSee('No data available.');
     }
-
-
 }

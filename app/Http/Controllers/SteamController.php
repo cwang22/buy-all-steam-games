@@ -6,7 +6,7 @@ use App\Record;
 
 class SteamController extends Controller
 {
-    public function index ()
+    public function index()
     {
         $records = Record::latest()->get();
 
@@ -17,9 +17,8 @@ class SteamController extends Controller
         return view('home', ['record' => $records->first(), 'records' => $records]);
     }
 
-    public function json ()
+    public function json()
     {
         return Record::latest()->get();
     }
-
 }
