@@ -3,11 +3,10 @@
 @section('content')
     <div class="row">
         <div id="showcase" class="col-lg-12">
-            <h1 class="page-header">Buy All Steam Games</h1>
-            <p>Ever wonder how much does it costs to buy all games from Steam?</p>
-            <p>Well, it costs <span class="text-danger">${{ $record->sale }}</span> at the moment, which originally
-                costs <span class="text-danger">${{ $record->original }}</span> on full price.</p>
-            <p>This page was last updated {{ $record->updated_at->diffForHumans() }}, based on price of
+            <h1 class="page-header">Buy All Steam Games <a class="github-button" href="https://github.com/cwang22/buy-all-steam-games" data-icon="octicon-star" data-size="large" aria-label="Star cwang22/buy-all-steam-games on GitHub">Star</a></h1>
+            <p>Ever wonder how much does it cost to buy all games from Steam?</p>
+            <p>Well, it costs <span class="text-danger">${{ $record->sale }}</span> at the moment or <span class="text-danger">${{ $record->original }}</span> if you buy everything at full price.</p>
+            <p>This page was last updated {{ $record->updated_at->diffForHumans() }}, based on the price of
                 the {{$record->cc}} region and {{$record->language}} language.
             </p>
 
@@ -17,8 +16,7 @@
 
             <h2 class="page-header">How does it work?</h2>
             <p>This page was inspired by <a
-                        href="http://buyallofsteam.appspot.com/">http://buyallofsteam.appspot.com/</a>, which does
-                exactly the same thing, but haven't updated since 2014.</p>
+                        href="http://buyallofsteam.appspot.com/">http://buyallofsteam.appspot.com/</a>, but it hasn't been updated since 2014.</p>
             <p>This page however is based on PHP and Laravel, and automatically fetch data every week.</p>
             <h2 class="page-header">API</h2>
             <p>You can hit <code>{{url('api')}}</code> to get the all data. It should looks like this.</p>
