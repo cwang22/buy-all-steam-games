@@ -1,11 +1,11 @@
 # Buy All Steam Games
 
-Ever wonder how much does it costs to buy all games from Steam?
+Ever wonder how much does it cost to buy all games from Steam?
 
 You can check it out at http://steam.seewang.me
 
 ## How does it work?
-This application was inspired by http://buyallofsteam.appspot.com/, which does exactly the same thing, but haven't updated since 2014.</p>
+This application was inspired by http://buyallofsteam.appspot.com/, but it haven't been updated since 2014.</p>
 
 This application however is based on PHP and Laravel, and automatically fetch data every week.
 
