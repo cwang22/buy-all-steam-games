@@ -21,7 +21,7 @@ You can hit `http://steam.seewang.me/api` to get the latest data. It should look
         }
         
 ## Installation
-This application is based on Laravel 5.4, uses artisan command and schedule jobs.
+This application is based on Laravel 5.6, uses artisan command and schedule jobs.
 
         git clone https://github.com/cwang22/buy-all-steam-games.git
         git cd buy-all-steam-games
@@ -33,4 +33,4 @@ Now you should fetch data for the first time, it may take about 10 minutes.
         
         php artisan fetch
         
-Then you should setup cron jobs for Laravel, so prices can be fetched automatically, check [official document](https://laravel.com/docs/5.4/scheduling) for detail.
+Then you should setup cron jobs for Laravel, so prices can be fetched automatically, check [official document](https://laravel.com/docs/5.6/scheduling) for detail.

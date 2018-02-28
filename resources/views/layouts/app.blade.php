@@ -25,7 +25,7 @@
 </div>
 <footer class="container">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col">
             <p>&copy {{ date('Y') }} <a href="https://seewang.me">seewang.me</a></p>
         </div>
     </div>

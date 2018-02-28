@@ -12,16 +12,16 @@
         mounted() {
             const sale = this.records.map(item => {
                     return {
-                        x: new moment(item.created_at),
-                        y: new Number(item.sale.replace(',', ''))
+                        x: moment(item.created_at),
+                        y: parseFloat(item.sale.replace(',', ''))
                     }
                 }
             )
 
             const original = this.records.map(item => {
                     return {
-                        x: new moment(item.created_at),
-                        y: new Number(item.original.replace(',', ''))
+                        x: moment(item.created_at),
+                        y: parseFloat(item.original.replace(',', ''))
                     }
                 }
             )

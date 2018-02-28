@@ -7,12 +7,16 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-  "devDependencies": {
-    "bootstrap-sass": "^3.3.7",
+  "dependencies": {
     "chart.js": "^2.7.0",
-    "cross-env": "^3.2.3",
-    "laravel-mix": "^0.8.3",
-    "moment": "^2.19.1",
-    "vue": "^2.1.10"
+    "moment": "^2.20.1",
+    "vue": "^2.5.7"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "cross-env": "^5.1",
+    "jquery": "^3.2",
+    "laravel-mix": "^2.0",
+    "popper.js": "^1.12"
   }
 }
