@@ -3,29 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Record;
-use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Log;
+use Illuminate\Support\Collection;
 
 class Fetch extends Command
 {
-    /**
-     * Number of apps per requests.
-     *
-     * @var int
-     */
-    protected $fetch_size;
-
-    /**
-     * Country code of region to fetch.
-     *
-     * @var string
-     */
-    protected $cc;
-
-    /** @var string */
-    protected $language;
-
     /**
      * The name and signature of the console command.
      *
@@ -40,81 +23,54 @@ class Fetch extends Command
      */
     protected $description = 'fetches amount of prices of all Steam games';
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->fetch_size = config('steam.fetch_size') | 125;
-        $this->language = config('steam.language') | 'english';
-        $this->cc = config('steam.cc') | 'US';
-    }
-
     /**
      * Execute the console command.
      *
+     * @param Client $client
      * @return void
      */
-    public function handle()
+    public function handle(Client $client)
     {
-        try {
-            $original = 0.0;
-            $sale = 0.0;
-            // fetch appid of all games
-            $contents = self::fetch('http://api.steampowered.com/ISteamApps/GetAppList/v2');
-            $appids = array_column($contents['applist']['apps'], 'appid');
-            $appidLists = array_chunk($appids, $this->fetch_size);
+        $json = json_decode($client->get('http://api.steampowered.com/ISteamApps/GetAppList/v2')->getBody(), true);
+        $lists = collect($json['applist']['apps'])->pluck('appid');
+        $chunks = $lists->chunk(config('steam.chunk_size'));
 
-            $count = count($appids);
-            $minute = ceil($count / 60 / $this->fetch_size * 2);
-            $this->info("Fetching in total of $count games/DLC, it may take $minute minutes.");
-            $bar = $this->output->createProgressBar(count($appidLists));
+        $this->info('fetching...');
+        $progressBar = $this->output->createProgressBar($chunks->count());
 
-            foreach ($appidLists as $list) {
-                // fetch price of games in current list
-                $appid = implode(',', $list);
-                $results = self::fetch($this->apiUrl($appid));
+        $original = 0;
+        $sale = 0;
 
-                foreach ($results as $result) {
-                    if (isset($result['data']['price_overview'])) {
-                        $original += $result['data']['price_overview']['initial'];
-                        $sale += $result['data']['price_overview']['final'];
-                    }
+        /** @var Collection $chunk */
+        foreach ($chunks as $chunk) {
+            $appids = $chunk->implode(',');
+            $json = json_decode($client->get('http://store.steampowered.com/api/appdetails/', [
+                'query' => [
+                    'appids'  => $appids,
+                    'cc'      => config('steam.country'),
+                    'l'       => config('steam.language'),
+                    'v'       => 1,
+                    'filters' => 'price_overview'
+                ]
+            ])->getBody(), true);
+
+            $results = collect($json);
+
+            foreach ($results as $result) {
+                if ( ! isset($result['data']['price_overview'])) {
+                    continue;
                 }
 
-                $bar->advance();
-
-                //sleep 1 seconds so it does not exceed access limit
-                sleep(2);
+                $original += $result['data']['price_overview']['initial'];
+                $sale += $result['data']['price_overview']['final'];
             }
-            $this->store($original, $sale);
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
+
+            $progressBar->advance();
+
+            sleep(2);
         }
-    }
 
-    /**
-     * Fetch given url and decode json result.
-     *
-     * @param $url
-     *
-     * @return mixed
-     */
-    private static function fetch($url)
-    {
-        $content = file_get_contents($url);
-
-        return json_decode($content, true);
-    }
-
-    /**
-     * Construct API URL for given appid.
-     *
-     * @param $appid
-     *
-     * @return string
-     */
-    private function apiUrl($appid)
-    {
-        return "http://store.steampowered.com/api/appdetails/?appids=$appid&cc=$this->cc&l=$this->language&v=1&filters=price_overview";
+        $this->store($original, $sale);
     }
 
     /**
@@ -123,13 +79,13 @@ class Fetch extends Command
      * @param $original number
      * @param $sale number
      */
-    private function store($original, $sale)
+    public function store($original, $sale)
     {
         Record::create([
             'original' => $original / 100,
             'sale'     => $sale / 100,
-            'cc'       => $this->cc,
-            'language' => $this->language,
+            'cc'       => config('steam.country'),
+            'language' => config('steam.language'),
         ]);
     }
 }
