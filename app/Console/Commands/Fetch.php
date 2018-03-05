@@ -27,6 +27,7 @@ class Fetch extends Command
      * Execute the console command.
      *
      * @param Client $client
+     *
      * @return void
      */
     public function handle(Client $client)
@@ -50,14 +51,14 @@ class Fetch extends Command
                     'cc'      => config('steam.country'),
                     'l'       => config('steam.language'),
                     'v'       => 1,
-                    'filters' => 'price_overview'
-                ]
+                    'filters' => 'price_overview',
+                ],
             ])->getBody(), true);
 
             $results = collect($json);
 
             foreach ($results as $result) {
-                if ( ! isset($result['data']['price_overview'])) {
+                if (!isset($result['data']['price_overview'])) {
                     continue;
                 }
 
