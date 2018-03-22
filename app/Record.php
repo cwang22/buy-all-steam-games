@@ -20,6 +20,7 @@ class Record extends Model
      * Format the original price.
      *
      * @param $value
+     *
      * @return string
      */
     public function getOriginalAttribute($value)
@@ -31,6 +32,7 @@ class Record extends Model
      * Format the sale price.
      *
      * @param $value
+     *
      * @return string
      */
     public function getSaleAttribute($value)
@@ -42,6 +44,7 @@ class Record extends Model
      * Get the language code.
      *
      * @param $value
+     *
      * @return string
      */
     public function getLanguageAttribute($value)
