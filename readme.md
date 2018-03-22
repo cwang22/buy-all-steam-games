@@ -12,13 +12,16 @@ This application however is based on PHP and Laravel, and automatically fetch da
 ## API
 You can hit `http://steam.seewang.me/api` to get the latest data. It should looks like this.
 
-        {
-            "original": 233448.27,
-            "sale": 229259.34,
-            "cc": "US"
-            "language": "english"
-            "updated_at": "2017-04-18 14:10:59"
-        }
+        [
+            {
+                "original": 233448.27,
+                "sale": 229259.34,
+                "cc": "US"
+                "language": "english"
+                "created_at": "2017-04-18 14:10:59"
+            },
+            ...
+        ]
         
 ## Installation
 This application is based on Laravel 5.6, uses artisan command and schedule jobs.

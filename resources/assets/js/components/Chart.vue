@@ -39,7 +39,7 @@
                             backgroundColor: 'rgba(0, 116, 217, 0.2)'
                         },
                         {
-                            label: 'Orignal Price',
+                            label: 'Original Price',
                             data: original
                         }
                     ]
