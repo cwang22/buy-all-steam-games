@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\Fetch;
+use     App\Console\Commands\Fetch;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(Fetch::class)->weekly()->sendOutputTo('schedule.log');
+        $schedule->command(Fetch::class)->daily()->sendOutputTo('schedule.log');
     }
 
     /**
