@@ -7,3 +7,12 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+#footer p {
+  font-size: 0.85rem;
+  color: $gray-600;
+  text-align: center;
+  a {
+    color: $dark;
+  }
+}
