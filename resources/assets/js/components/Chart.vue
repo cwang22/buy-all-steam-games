@@ -51,6 +51,15 @@
                         display: true,
                         text: 'Total Price (USD)'
                     },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    },
                     scales: {
                         xAxes: [
                             {
