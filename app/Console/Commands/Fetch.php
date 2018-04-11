@@ -68,6 +68,8 @@ class Fetch extends Command
 
             $progressBar->advance();
 
+			// Rate limit of steam API is about 10 requests every 10 seconds
+			// Sleep 2 seconds just to be sure
             sleep(2);
         }
 

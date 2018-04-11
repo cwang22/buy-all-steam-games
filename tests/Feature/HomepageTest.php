@@ -22,7 +22,7 @@ class HomepageTest extends TestCase
     }
 
     /** @test */
-    public function it_display_message_when_no_data_avaliable()
+    public function it_display_message_when_no_data_available()
     {
         $this->get('/')->assertSee('No data available.');
     }

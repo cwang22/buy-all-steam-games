@@ -16,7 +16,6 @@
                     the {{$record->cc}} region and {{$record->language}} language.
                 </p>
             </div>
-
             <h2 class="mt-5">Trends</h2>
             <chart :records="{{ $records }}"></chart>
 
