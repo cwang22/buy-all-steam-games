@@ -7,7 +7,7 @@ You can check it out at http://steam.seewang.me
 ## How does it work?
 This application was inspired by http://buyallofsteam.appspot.com/, but it haven't been updated since 2014.</p>
 
-This application however is based on PHP and Laravel, and automatically fetch data every week.
+This application however is based on PHP and Laravel, and automatically fetch data daily.
 
 ## API
 You can hit `http://steam.seewang.me/api` to get the latest data. It should looks like this.

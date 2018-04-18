@@ -23,7 +23,7 @@
             <p>This page was inspired by <a
                         href="http://buyallofsteam.appspot.com/" target="_blank">http://buyallofsteam.appspot.com/</a>, but it hasn't
                 been updated since 2014.</p>
-            <p>This page however is based on PHP and Laravel, and automatically fetch data every week.</p>
+            <p>This page however is based on PHP and Laravel, and automatically fetch daily.</p>
             <h2 class="mt-5">API</h2>
             <p>You can hit <code>{{url('api')}}</code> to get all the data. It should look like this.</p>
             <pre>
