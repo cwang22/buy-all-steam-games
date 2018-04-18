@@ -1,7 +1,14 @@
 <template>
-    <div class="wrapper">
-        <canvas id="chart"></canvas>
+    <div>
+        <div class="float-right">
+            <button v-for="button in buttons" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
+        </div>
+
+        <div class="wrapper">
+            <canvas id="chart"></canvas>
+        </div>
     </div>
+
 </template>
 <script>
     import moment from 'moment'
@@ -9,8 +16,57 @@
 
     export default {
         props: ['records'],
+        data() {
+            return {
+                currentButton: 'All',
+                sale: null,
+                original: null,
+                chart: null
+
+            }
+        },
+        computed: {
+            buttons() {
+                return ['All', 'Year', 'Month']
+            }
+        },
+        methods: {
+            buttonClass(button) {
+                return this.currentButton === button ? 'btn-dark' : 'btn-outline-dark'
+            },
+            update(button) {
+                if(button === this.currentButton) return
+                this.currentButton = button
+
+                let momentFilter
+
+                if (button === 'Year'){
+                    momentFilter = moment().subtract(1, 'years')
+                } else if (button === 'Month'){
+                    momentFilter = moment().subtract(1, 'months')
+                }
+
+                let sale = this.sale
+                let original = this.original
+
+                if(typeof momentFilter !== 'undefined') {
+                    sale = this.sale.filter(item => {
+                        return item.x > momentFilter
+                    })
+
+                    original = this.original.filter(item => {
+                        return item.x > momentFilter
+                    })
+
+                }
+
+                this.chart.config.data.datasets[0].data = sale
+                this.chart.config.data.datasets[1].data = original
+                this.chart.update()
+            }
+        },
         mounted() {
-            const sale = this.records.map(item => {
+            this.sale = this.records.map(item => {
                     return {
                         x: moment(item.created_at),
                         y: parseFloat(item.sale.replace(',', ''))
@@ -18,7 +74,7 @@
                 }
             )
 
-            const original = this.records.map(item => {
+            this.original = this.records.map(item => {
                     return {
                         x: moment(item.created_at),
                         y: parseFloat(item.original.replace(',', ''))
@@ -28,19 +84,19 @@
 
             const ctx = document.getElementById('chart')
 
-            new Chart(ctx, {
+            this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: [
                         {
                             label: 'Sale Price',
-                            data: sale,
+                            data: this.sale,
                             borderColor: '#0074D9',
                             backgroundColor: 'rgba(0, 116, 217, 0.2)'
                         },
                         {
                             label: 'Original Price',
-                            data: original
+                            data: this.original
                         }
                     ]
                 },
