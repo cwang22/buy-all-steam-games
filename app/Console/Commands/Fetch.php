@@ -69,8 +69,8 @@ class Fetch extends Command
 
             $progressBar->advance();
 
-			// Rate limit of steam API is about 10 requests every 10 seconds
-			// Sleep 2 seconds just to be sure
+            // Rate limit of steam API is about 10 requests every 10 seconds
+            // Sleep 2 seconds just to be sure
             sleep(2);
         }
 
@@ -92,6 +92,6 @@ class Fetch extends Command
             'language' => config('steam.language'),
         ]);
 
-	    Cache::pull('view');
+        Cache::pull('view');
     }
 }
