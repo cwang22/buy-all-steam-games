@@ -62,6 +62,13 @@
 
                 this.chart.config.data.datasets[0].data = sale
                 this.chart.config.data.datasets[1].data = original
+
+                this.chart.options.scales.yAxes = [{
+                    ticks: {
+                        beginAtZero: button !== 'Month'
+                    }
+                }]
+
                 this.chart.update()
             }
         },
