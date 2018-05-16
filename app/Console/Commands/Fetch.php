@@ -6,6 +6,7 @@ use App\Record;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class Fetch extends Command
 {
@@ -90,5 +91,7 @@ class Fetch extends Command
             'cc'       => config('steam.country'),
             'language' => config('steam.language'),
         ]);
+
+	    Cache::pull('view');
     }
 }
