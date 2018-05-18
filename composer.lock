@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "35aa65ce693624a3de01c101ff5c1454",
+    "content-hash": "58ec40f3c80abc0ab022fab270f1f4b1",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -548,6 +548,58 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
+            "name": "jacobbennett/laravel-http2serverpush",
+            "version": "v2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JacobBennett/laravel-HTTP2ServerPush.git",
+                "reference": "ac84d272561a8322a241b3bbf8706b25eeca4e8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JacobBennett/laravel-HTTP2ServerPush/zipball/ac84d272561a8322a241b3bbf8706b25eeca4e8b",
+                "reference": "ac84d272561a8322a241b3bbf8706b25eeca4e8b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^5.3",
+                "illuminate/support": "^5.3",
+                "php": "^5.5|^7.0",
+                "symfony/css-selector": "^2.7|^3.0|^4.0",
+                "symfony/dom-crawler": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0|^5.0",
+                "scrutinizer/ocular": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JacobBennett\\Http2ServerPush\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Bennett",
+                    "email": "me@jakebennett.net",
+                    "homepage": "https://jakebennett.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A HTTP2 Server Push Middleware for Laravel 5",
+            "homepage": "https://github.com/jacobbennett/laravel-http2serverpush",
+            "keywords": [
+                "laravel",
+                "laravel-http2serverpush",
+                "serverpush"
+            ],
+            "time": "2018-03-13T16:10:15+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -775,16 +827,16 @@
         },
         {
             "name": "laravel/tinker",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "b22fe905fcefdffae76b011e27c7ac09e07e052b"
+                "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/b22fe905fcefdffae76b011e27c7ac09e07e052b",
-                "reference": "b22fe905fcefdffae76b011e27c7ac09e07e052b",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
+                "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
                 "shasum": ""
             },
             "require": {
@@ -834,7 +886,7 @@
                 "laravel",
                 "psysh"
             ],
-            "time": "2018-04-16T12:10:37+00:00"
+            "time": "2018-05-17T13:42:07+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1777,6 +1829,62 @@
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
             "time": "2018-04-30T16:59:37+00:00"
+        },
+        {
+            "name": "symfony/dom-crawler",
+            "version": "v4.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "d6c04c7532535b5e0b63db45b543cd60818e0fbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/d6c04c7532535b5e0b63db45b543cd60818e0fbc",
+                "reference": "d6c04c7532535b5e0b63db45b543cd60818e0fbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "require-dev": {
+                "symfony/css-selector": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony DomCrawler Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-03-19T22:35:49+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
