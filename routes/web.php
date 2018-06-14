@@ -13,3 +13,4 @@
 
 Route::get('/', 'SteamController@index');
 Route::get('/zh', 'SteamController@zh');
+Route::get('/api', 'SteamController@json');
