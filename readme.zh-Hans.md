@@ -39,5 +39,4 @@ https://steam.seewang.me
 设置自动任务调度来保证每天获取数据，可以参考 [Laravel 官方文档](https://laravel.com/docs/5.6/scheduling)。
 
 ## 许可协议
-MIT
 [MIT](https://github.com/cwang22/buy-all-steam-games/blob/master/LICENSE)
