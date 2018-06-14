@@ -12,3 +12,4 @@
 */
 
 Route::get('/', 'SteamController@index');
+Route::get('/zh', 'SteamController@zh');
