@@ -27,7 +27,7 @@
             <p>这个网站的灵感来源于 <a
                         href="http://buyallofsteam.appspot.com/" target="_blank">http://buyallofsteam.appspot.com/</a>，但是原帖从
                 2014 年之后就没有更新了。</p>
-            <p>于是我就用 Laravel 做了这么一个网站，每天自动获取数据</p>
+            <p>于是我就用 Laravel 做了这么一个网站，每天自动获取数据。</p>
             <h2 class="mt-5">API</h2>
             <p>你可以访问 <code>{{url('api')}}</code> 来获取所有历史数据，API 大概长下面这样：</p>
             <pre>

@@ -1,5 +1,7 @@
 # Buy All Steam Games
 
+[中文](https://github.com/cwang22/buy-all-steam-games/blob/master/readme.zh-Hans.md)
+
 Ever wonder how much does it cost to buy all games from Steam?
 
 You can check it out at http://steam.seewang.me
@@ -40,3 +42,4 @@ Then you should setup cron jobs for Laravel, so prices can be fetched automatica
 
 ## License
 MIT
+[MIT](https://github.com/cwang22/buy-all-steam-games/blob/master/LICENSE)
