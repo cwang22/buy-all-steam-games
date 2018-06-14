@@ -5,7 +5,7 @@
 https://steam.seewang.me
 
 ## How does it work?
-这个网站的灵感来源于 http://buyallofsteam.appspot.com/，但是原帖从 2014 年之后就没有更新了。
+这个网站的灵感来源于 [http://buyallofsteam.appspot.com/](http://buyallofsteam.appspot.com/)，但是原帖从 2014 年之后就没有更新了。
 
 于是我就用 Laravel 做了这么一个网站，每天自动获取数据。
 
@@ -17,14 +17,14 @@ https://steam.seewang.me
                 "original": 233448.27,
                 "sale": 229259.34,
                 "cc": "US"
-                "language": "nglish"
+                "language": "English"
                 "created_at": "2017-04-18 14:10:59"
             },
             ...
         ]
         
 ## 安装
-这个项目基于 Laravel 5.6, 并使用了 Artisan 命令和任务调度
+这个项目基于 Laravel 5.6，并使用了 Artisan 命令和任务调度。
 
         git clone https://github.com/cwang22/buy-all-steam-games.git
         git cd buy-all-steam-games
@@ -32,7 +32,7 @@ https://steam.seewang.me
         cp .env.example .env
         php artisan key:generate
         
-用下面的命令获取第一次的数据，大概需要 10 分钟
+用下面的命令获取第一次的数据，大概需要 10 分钟。
         
         php artisan fetch
         
