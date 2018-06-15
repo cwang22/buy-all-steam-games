@@ -35,5 +35,4 @@ class Kernel extends HttpKernel
             \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
         ],
     ];
-
 }
