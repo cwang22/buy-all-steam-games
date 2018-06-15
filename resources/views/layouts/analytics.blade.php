@@ -1,4 +1,4 @@
-@if($tracking = env('GOOGLE_ANALYTICS_TRACKING_ID'))
+@if($tracking = config('services.ga.id'))
 <!-- Google Analytics -->
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
