@@ -36,7 +36,7 @@ return [
     ],
 
     'ga' => [
-        'id' => env('GOOGLE_ANALYTICS_TRACKING_ID')
+        'id' => env('GOOGLE_ANALYTICS_TRACKING_ID'),
     ],
 
 ];
