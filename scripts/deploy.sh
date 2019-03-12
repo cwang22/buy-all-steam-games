@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
-git fetch --all
-git checkout --force "origin/master"
+#!/bin/bash
+git pull
 composer install --no-dev
 npm run production
 php artisan route:cache
