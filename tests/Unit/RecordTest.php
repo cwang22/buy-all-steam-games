@@ -15,7 +15,7 @@ class RecordTest extends TestCase
     {
         $record = factory(Record::class)->create([
             'original' => 111111.11,
-            'sale' => 222222,
+            'sale'     => 222222,
         ]);
 
         $this->assertEquals('111,111.11', $record->original);
