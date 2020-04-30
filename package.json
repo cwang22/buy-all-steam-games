@@ -10,7 +10,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "chart.js": "^2.7.0",
-    "jquery": "^3.2",
+    "jquery": "^3.5",
     "moment": "^2.20.1",
     "popper.js": "^1.12",
     "vue": "^2.5.7"
