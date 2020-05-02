@@ -11,7 +11,7 @@
 
 </template>
 <script>
-    import moment from 'moment'
+    import * as moment from 'moment'
     import Chart from 'chart.js'
 
     export default {
