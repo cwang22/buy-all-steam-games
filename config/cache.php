@@ -35,7 +35,7 @@ return [
         ],
 
         'array' => [
-            'driver' => 'array',
+            'driver'    => 'array',
             'serialize' => false,
         ],
 
