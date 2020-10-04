@@ -2,18 +2,15 @@
 
 namespace Tests\Unit;
 
-use App\Record;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Record;
 use Tests\TestCase;
 
 class RecordTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_format_prices()
     {
-        $record = factory(Record::class)->create([
+        $record = Record::factory()->make([
             'original' => 111111.11,
             'sale'     => 222222,
         ]);
