@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Record;
+use App\Models\Record;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;

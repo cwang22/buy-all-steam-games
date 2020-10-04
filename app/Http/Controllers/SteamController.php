@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Record;
+use App\Models\Record;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
