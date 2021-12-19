@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Cache;
 
 class FetchRecords implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected string $country;
 
@@ -35,9 +38,9 @@ class FetchRecords implements ShouldQueue
             $appids = $chunk->implode(',');
             $json = json_decode($client->get('http://store.steampowered.com/api/appdetails/', [
                 'query' => [
-                    'appids' => $appids,
-                    'cc' => $this->country,
-                    'v' => 1,
+                    'appids'  => $appids,
+                    'cc'      => $this->country,
+                    'v'       => 1,
                     'filters' => 'price_overview',
                 ],
             ])->getBody(), true);
@@ -61,13 +64,12 @@ class FetchRecords implements ShouldQueue
         $this->store($original, $sale);
     }
 
-
     public function store(int $original, int $sale)
     {
         Record::create([
             'original' => $original,
-            'sale' => $sale,
-            'cc' => $this->country
+            'sale'     => $sale,
+            'cc'       => $this->country,
         ]);
 
         Cache::pull('view');

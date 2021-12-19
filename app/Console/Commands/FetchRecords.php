@@ -18,5 +18,4 @@ class FetchRecords extends Command
             FetchRecordsJob::dispatch(Str::upper($country));
         }
     }
-
 }

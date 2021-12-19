@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class AlterRecordsTable extends Migration
 {
-
     public function up(): void
     {
         DB::unprepared('UPDATE `records` SET `original` = `original` * 100, `sale` = `sale` * 100;');
