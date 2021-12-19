@@ -15,14 +15,15 @@ class AlterRecordsTable extends Migration
             $table->integer('original')->nullable()->change();
             $table->integer('sale')->nullable()->change();
             $table->dropColumn('language');
+            $table->index(['cc']);
         });
     }
 
     public function down(): void
     {
         Schema::table('records', static function (Blueprint $table) {
-            $table->decimal('original_price')->nullable()->change();
-            $table->decimal('sale_price')->nullable()->change();
+            $table->decimal('original')->nullable()->change();
+            $table->decimal('sale')->nullable()->change();
             $table->string('language', 20)->default('US')->after('cc');
         });
 
