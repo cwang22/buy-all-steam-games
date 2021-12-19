@@ -2,7 +2,8 @@
 
 namespace App\Console;
 
-use     App\Console\Commands\FetchRecords;
+use App\Console\Commands\FetchRecords;
+use App\Jobs\FetchRecords as FetchRecordsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,7 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(FetchRecords::class)->daily()->sendOutputTo('schedule.log');
+        $schedule->job(new FetchRecordsJob('us'))->daily();
+        $schedule->job(new FetchRecordsJob('cn'))->daily();
     }
 
     /**
