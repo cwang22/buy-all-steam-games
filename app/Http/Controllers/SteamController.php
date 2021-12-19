@@ -38,10 +38,10 @@ class SteamController extends Controller
      *
      * @return mixed
      */
-    public function getView($lang = 'en')
+    public function getView(string $lang = 'en')
     {
         return Cache::remember("view.$lang", 1440, function () use ($lang) {
-            $records = Record::latest()->get();
+            $records = Record::latest()->where('cc', 'US')->get();
 
             if ($records->isEmpty()) {
                 return view('empty')->render();
@@ -56,6 +56,6 @@ class SteamController extends Controller
      */
     public function json()
     {
-        return Record::latest()->get();
+        return Record::latest()->where('cc', 'US')->get();
     }
 }
