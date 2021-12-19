@@ -65,10 +65,9 @@ class FetchRecords implements ShouldQueue
     public function store(int $original, int $sale)
     {
         Record::create([
-            'original' => $original / 100,
-            'sale' => $sale / 100,
-            'cc' => config('steam.country'),
-            'language' => config('steam.language'),
+            'original' => $original,
+            'sale' => $sale,
+            'cc' => $this->country
         ]);
 
         Cache::pull('view');
