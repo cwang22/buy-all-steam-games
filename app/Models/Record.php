@@ -9,48 +9,33 @@ class Record extends Model
 {
     use HasFactory;
 
-    /**
-     * Attributes that cannot be mass assigned.
-     */
     protected $guarded = [];
 
-    /**
-     * Attributes that are hidden from json.
-     */
     protected $hidden = ['id', 'updated_at'];
 
-    /**
-     * Format the original price.
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function getOriginalAttribute($value)
+    protected $appends = ['original_price', 'sale_price'];
+
+    public function getOriginalAttribute($value): string
     {
-        return number_format($value, 2);
+        return number_format($value / 100, 2);
     }
 
-    /**
-     * Format the sale price.
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function getSaleAttribute($value)
+    public function getSaleAttribute($value): string
     {
-        return number_format($value, 2);
+        return number_format($value / 100, 2);
     }
 
-    /**
-     * Get the language code.
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function getLanguageAttribute($value)
+    public function getOriginalPriceAttribute(): string
+    {
+        return $this->attributes['original'];
+    }
+
+    public function getSalePriceAttribute(): string
+    {
+        return $this->attributes['sale'];
+    }
+
+    public function getLanguageAttribute($value): string
     {
         return ucfirst($value);
     }
