@@ -13,7 +13,7 @@ class Record extends Model
 
     protected $hidden = ['id', 'updated_at'];
 
-    protected $appends = ['original_price', 'sale_price'];
+    protected $appends = ['original_price', 'sale_price', 'language'];
 
     public function getOriginalAttribute($value): string
     {
@@ -35,8 +35,8 @@ class Record extends Model
         return $this->attributes['sale'];
     }
 
-    public function getLanguageAttribute($value): string
+    public function getLanguageAttribute(): string
     {
-        return ucfirst($value);
+        return 'English';
     }
 }
