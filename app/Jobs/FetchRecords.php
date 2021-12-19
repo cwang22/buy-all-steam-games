@@ -1,57 +1,43 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Jobs;
 
 use App\Models\Record;
 use GuzzleHttp\Client;
-use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 
-class Fetch extends Command
+class FetchRecords implements ShouldQueue
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'fetch';
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'fetches amount of prices of all Steam games';
+    protected string $country;
 
-    /**
-     * Execute the console command.
-     *
-     * @param Client $client
-     *
-     * @return void
-     */
+    public function __construct(string $country)
+    {
+        $this->country = $country;
+    }
+
     public function handle(Client $client)
     {
         $json = json_decode($client->get('http://api.steampowered.com/ISteamApps/GetAppList/v2')->getBody(), true);
         $lists = collect($json['applist']['apps'])->pluck('appid');
         $chunks = $lists->chunk(config('steam.chunk_size'));
 
-        $this->info('fetching...');
-        $progressBar = $this->output->createProgressBar($chunks->count());
-
         $original = 0;
         $sale = 0;
 
-        /** @var Collection $chunk */
         foreach ($chunks as $chunk) {
             $appids = $chunk->implode(',');
             $json = json_decode($client->get('http://store.steampowered.com/api/appdetails/', [
                 'query' => [
-                    'appids'  => $appids,
-                    'cc'      => config('steam.country'),
-                    'l'       => config('steam.language'),
-                    'v'       => 1,
+                    'appids' => $appids,
+                    'cc' => $this->country,
+                    'v' => 1,
                     'filters' => 'price_overview',
                 ],
             ])->getBody(), true);
@@ -67,28 +53,21 @@ class Fetch extends Command
                 $sale += $result['data']['price_overview']['final'];
             }
 
-            $progressBar->advance();
-
             // Rate limit of steam API is about 10 requests every 10 seconds
-            // Sleep 2 seconds just to be sure
+            // Sleep 2 seconds just to be safe
             sleep(2);
         }
 
         $this->store($original, $sale);
     }
 
-    /**
-     * Store fetched prices.
-     *
-     * @param $original number
-     * @param $sale number
-     */
-    public function store($original, $sale)
+
+    public function store(int $original, int $sale)
     {
         Record::create([
             'original' => $original / 100,
-            'sale'     => $sale / 100,
-            'cc'       => config('steam.country'),
+            'sale' => $sale / 100,
+            'cc' => config('steam.country'),
             'language' => config('steam.language'),
         ]);
 
