@@ -9,13 +9,14 @@
     "type": "project",
     "require": {
         "php": ">=7.4",
+        "ext-json": "*",
+        "doctrine/dbal": "^3.2",
         "fideloper/proxy": "~4.0",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "~2.0",
-        "predis/predis": "^1.1",
-        "ext-json": "*"
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.3",
