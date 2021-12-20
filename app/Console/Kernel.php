@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new FetchRecordsJob('us'))->daily();
-        $schedule->job(new FetchRecordsJob('cn'))->daily();
+        $schedule->job(new FetchRecordsJob('US'))->daily();
+        $schedule->job(new FetchRecordsJob('CN'))->daily();
     }
 
     /**
