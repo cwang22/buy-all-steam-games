@@ -8,3 +8,4 @@ composer install --no-dev
 npm run production
 php artisan route:cache
 php artisan config:cache
+php artisan queue:restart
