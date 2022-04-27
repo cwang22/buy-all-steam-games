@@ -66,6 +66,10 @@ class FetchRecords implements ShouldQueue
 
     public function store(int $original, int $sale)
     {
+        if ($original === 0 || $sale === 0) {
+            return;
+        }
+
         Record::create([
             'original' => $original,
             'sale'     => $sale,
