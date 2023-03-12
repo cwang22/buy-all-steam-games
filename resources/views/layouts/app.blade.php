@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 <head>
+    @includeIf('partials.header')
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,13 +24,8 @@
 <div id="app" class="container">
     @yield('content')
 </div>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            @include('layouts.ad')
-        </div>
-    </div>
-</div>
+@include('partials.extra')
+
 <footer id="footer" class="container mt-5">
     <div class="row">
         <div class="col">
@@ -43,6 +39,6 @@
 <script src="{{ mix('js/app.js') }}"></script>
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-@include('layouts.analytics')
+@includeIf('partials.footer')
 </body>
 </html>
