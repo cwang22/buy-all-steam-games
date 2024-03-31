@@ -5,7 +5,7 @@ git fetch -all
 git reset --hard origin/master
 git pull
 composer install --no-dev
-npm run production
+npm run build
 php artisan route:cache
 php artisan config:cache
 php artisan queue:restart
