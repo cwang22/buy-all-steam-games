@@ -1,7 +1,15 @@
-window.Vue = require('vue');
+import '../sass/app.scss';
+import { createApp } from 'vue/dist/vue.esm-bundler';
 
-Vue.component('chart', require('./components/Chart.vue'));
-
-const app = new Vue({
-    el: '#app'
+const app = createApp({
+    data() {
+        return {
+            count: 0
+        }
+    }
 });
+
+import Chart from './components/Chart.vue';
+app.component('chart', Chart);
+
+app.mount('#app');
