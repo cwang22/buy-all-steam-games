@@ -18,10 +18,8 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
-    public function map()
+    public function map(): void
     {
         Route::middleware('web')
              ->namespace($this->namespace)
