@@ -34,7 +34,7 @@ This application is based on Laravel 5.6, uses artisan command and schedule jobs
         cp .env.example .env
         php artisan key:generate
         
-Now you should fetch data for the first time, it may take about 10 minutes.
+Now you should fetch data for the first time, it may take about 10 minutes.(US region for example)
         
         php artisan fetch US
         
