@@ -36,7 +36,7 @@ This application is based on Laravel 5.6, uses artisan command and schedule jobs
         
 Now you should fetch data for the first time, it may take about 10 minutes.
         
-        php artisan fetch
+        php artisan fetch US
         
 Then you should setup cron jobs for Laravel, so prices can be fetched automatically, check [official document](https://laravel.com/docs/5.6/scheduling) for detail.
 
