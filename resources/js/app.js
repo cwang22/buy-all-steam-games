@@ -1,15 +1,9 @@
 import '../sass/app.scss';
 import { createApp } from 'vue/dist/vue.esm-bundler';
 
-const app = createApp({
-    data() {
-        return {
-            count: 0
-        }
-    }
-});
+const app = createApp();
 
-import Chart from './components/Chart.vue';
-app.component('chart', Chart);
+import Home from './components/Home.vue';
+app.component('home', Home);
 
 app.mount('#app');

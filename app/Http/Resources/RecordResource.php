@@ -13,6 +13,7 @@ class RecordResource extends JsonResource
             'id' => $this->id,
             'original' => $this->original / 100000,
             'sale' => $this->sale / 1000000,
+            'created_at' => $this->created_at->toISO8601String(),
         ];
     }
 }
