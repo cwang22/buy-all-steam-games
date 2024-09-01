@@ -25,7 +25,7 @@ class FetchRecords implements ShouldQueue
         $this->country = $country;
     }
 
-    public function handle(Client $client)
+    public function handle(Client $client): void
     {
         $json = json_decode($client->get('http://api.steampowered.com/ISteamApps/GetAppList/v2')->getBody(), true);
         $lists = collect($json['applist']['apps'])->pluck('appid');

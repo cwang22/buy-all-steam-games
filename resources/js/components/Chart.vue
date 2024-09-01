@@ -22,7 +22,6 @@
                 sale: null,
                 original: null,
                 chart: null
-
             }
         },
         computed: {
