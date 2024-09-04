@@ -8,13 +8,19 @@
     <p>This page was last updated {{ formatDistanceToNow(new Date(record.created_at)) }}.</p>
   </div>
   <h2 class="mt-5">Trends</h2>
+  <Chart :records="records"></Chart>
 </template>
 
 <script>
-import {formatDistanceToNow} from 'date-fns';
+import { formatDistanceToNow } from 'date-fns'
+import Chart from './Chart.vue'
+
 
 export default {
   name: "Home",
+  components: {
+    Chart
+  },
   data() {
     return {
       records: [],
@@ -22,13 +28,13 @@ export default {
   },
   computed: {
     record() {
-      return this.records[0];
+      return this.records[0]
     },
   },
   methods: {formatDistanceToNow},
   mounted: async function () {
-    const response = await fetch('/api/records');
-    this.records = (await response.json()).data;
+    const response = await fetch('/api/records')
+    this.records = (await response.json()).data
   }
 
 }

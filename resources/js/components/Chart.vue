@@ -1,112 +1,50 @@
 <template>
     <div>
         <div class="float-right">
-            <button v-for="button in buttons" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
+            <button v-for="button in buttons" :key="button" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
         </div>
 
         <div class="wrapper">
-            <canvas id="chart"></canvas>
+            <Line id="chart" :data="chartData" :options="chartOptions" />
         </div>
     </div>
 
 </template>
 <script>
-    import moment from 'moment'
-    import Chart from 'chart.js'
+    import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    TimeScale,
+    } from 'chart.js'
+    import { Line } from 'vue-chartjs'
+    import 'chartjs-adapter-date-fns'
+
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend,
+        TimeScale,
+    )
 
     export default {
         props: ['records'],
+        components: {
+            Line
+        },
         data() {
             return {
                 currentButton: 'All',
-                sale: null,
-                original: null,
-                chart: null
-            }
-        },
-        computed: {
-            buttons() {
-                return ['All', 'Year', 'Month']
-            }
-        },
-        methods: {
-            buttonClass(button) {
-                return this.currentButton === button ? 'btn-dark' : 'btn-outline-dark'
-            },
-            update(button) {
-                if(button === this.currentButton) return
-                this.currentButton = button
-
-                let momentFilter
-
-                if (button === 'Year'){
-                    momentFilter = moment().subtract(1, 'years')
-                } else if (button === 'Month'){
-                    momentFilter = moment().subtract(1, 'months')
-                }
-
-                let sale = this.sale
-                let original = this.original
-
-                if(typeof momentFilter !== 'undefined') {
-                    sale = this.sale.filter(item => {
-                        return item.x > momentFilter
-                    })
-
-                    original = this.original.filter(item => {
-                        return item.x > momentFilter
-                    })
-
-                }
-
-                this.chart.config.data.datasets[0].data = sale
-                this.chart.config.data.datasets[1].data = original
-
-                this.chart.options.scales.yAxes = [{
-                    ticks: {
-                        beginAtZero: button !== 'Month'
-                    }
-                }]
-
-                this.chart.update()
-            }
-        },
-        mounted() {
-            this.sale = this.records.map(item => {
-                    return {
-                        x: moment(item.created_at),
-                        y: parseFloat(item.sale.replace(',', ''))
-                    }
-                }
-            )
-
-            this.original = this.records.map(item => {
-                    return {
-                        x: moment(item.created_at),
-                        y: parseFloat(item.original.replace(',', ''))
-                    }
-                }
-            )
-
-            const ctx = document.getElementById('chart')
-
-            this.chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Sale Price',
-                            data: this.sale,
-                            borderColor: '#0074D9',
-                            backgroundColor: 'rgba(0, 116, 217, 0.2)'
-                        },
-                        {
-                            label: 'Original Price',
-                            data: this.original
-                        }
-                    ]
-                },
-                options: {
+                chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,
                     title: {
@@ -123,19 +61,91 @@
                         }
                     },
                     scales: {
-                        xAxes: [
-                            {
-                                type: 'time'
-                            }
-                        ],
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+                        x: {
+                            type: 'time'
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            })
+            }
+        },
+        computed: {
+            buttons() {
+                return ['All', 'Year', 'Month']
+            },
+            chartData() {
+
+                const filterData = (data) => {
+                    if (this.currentButton === 'Year') {
+                        const oneYearAgo = new Date();
+                        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+                        return data.filter(item => item.x >= oneYearAgo);
+                    }
+                    if (this.currentButton === 'Month') {
+                        const oneMonthAgo = new Date();
+                        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+                        return data.filter(item => item.x >= oneMonthAgo);
+                    }
+                    return data;
+                };
+
+                const sale = filterData(this.records.map(record => {
+                    return {
+                        x: new Date(record.created_at),
+                        y: record.sale
+                    }
+                }));
+
+                const original = filterData(this.records.map(record => {
+                    return {
+                        x: new Date(record.created_at),
+                        y: record.original
+                    }
+                }));
+                
+                return {
+                    datasets: [
+                        {
+                            label: 'Sale Price',
+                            data: sale,
+                            borderColor: '#0074D9',
+                            cubicInterpolationMode: 'monotone',
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            pointHitRadius: 10,
+                            pointBackgroundColor: '#0074D9',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#0074D9'
+                        },
+                        {
+                            label: 'Original Price',
+                            data: original,
+                            borderColor: '#FF4136',
+
+                            cubicInterpolationMode: 'monotone',
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            pointHitRadius: 10,
+                            pointBackgroundColor: '#FF4136',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: '#FF4136'
+                        }
+                    ]
+                }
+            }
+        },
+        methods: {
+            buttonClass(button) {
+                return this.currentButton === button ? 'btn-dark' : 'btn-outline-dark'
+            },
+            update(button) {
+                if (button === this.currentButton) return
+                this.currentButton = button
+            }
         }
     }
 </script>

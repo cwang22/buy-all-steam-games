@@ -10,6 +10,6 @@ class GetRecordsController
 {
     public function __invoke(): ResourceCollection
     {
-        return RecordResource::collection(Record::latest()->get());
+        return RecordResource::collection(Record::all());
     }
 }
