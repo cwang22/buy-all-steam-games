@@ -28,7 +28,15 @@ export default {
   },
   computed: {
     record() {
+      if (this.records.length > 0) {
       return this.records[0]
+      }
+
+      return {
+        sale: '-',
+        original: '-',
+        created_at: new Date()
+      }
     },
   },
   methods: {formatDistanceToNow},
