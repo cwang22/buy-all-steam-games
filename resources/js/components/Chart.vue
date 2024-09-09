@@ -51,9 +51,11 @@
                         display: true,
                         text: 'Total Price (USD)'
                     },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
                     },
                     elements: {
                         point: {
@@ -122,7 +124,7 @@
                             label: 'Original Price',
                             data: original,
                             pointRadius: 0,
-                            pointHoverRadius: 5,
+                            pointHoverRadius: 5
                         }
                     ]
                 }
