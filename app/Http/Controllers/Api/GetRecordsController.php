@@ -10,6 +10,6 @@ class GetRecordsController
 {
     public function __invoke(): ResourceCollection
     {
-        return RecordResource::collection(Record::all());
+        return RecordResource::collection(Record::where(['cc' => 'US'])->get());
     }
 }

@@ -11,8 +11,8 @@ class RecordResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'original' => $this->original / 100000,
-            'sale' => $this->sale / 1000000,
+            'original' => $this->original / 100,
+            'sale' => $this->sale / 100,
             'created_at' => $this->created_at->toIso8601String(),
         ];
     }
