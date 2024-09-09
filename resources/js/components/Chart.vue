@@ -62,7 +62,10 @@
                     },
                     scales: {
                         x: {
-                            type: 'time'
+                            type: 'time',
+                            ticks: {
+                                maxTicksLimit: 30
+                            }
                         },
                         y: {
                             beginAtZero: true
@@ -111,28 +114,15 @@
                             label: 'Sale Price',
                             data: sale,
                             borderColor: '#0074D9',
-                            cubicInterpolationMode: 'monotone',
-                            pointRadius: 3,
+                            pointRadius: 0,
                             pointHoverRadius: 5,
-                            pointHitRadius: 10,
-                            pointBackgroundColor: '#0074D9',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: '#0074D9'
+                            pointHoverBackgroundColor: '#0074D9'
                         },
                         {
                             label: 'Original Price',
                             data: original,
-                            borderColor: '#FF4136',
-
-                            cubicInterpolationMode: 'monotone',
-                            pointRadius: 3,
+                            pointRadius: 0,
                             pointHoverRadius: 5,
-                            pointHitRadius: 10,
-                            pointBackgroundColor: '#FF4136',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: '#FF4136'
                         }
                     ]
                 }
