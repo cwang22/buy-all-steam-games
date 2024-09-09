@@ -1,14 +1,23 @@
 <template>
-
-  <div class="mt-5" v-if="record">
+  <div v-if="!record" class="mt-5 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="d-none">Loading...</span>
+      </div>
+  </div>
+  <div class="mt-5" v-else-if="record">
     <p>Ever wonder how much does it cost to buy all games from Steam?</p>
-    <p>Well, at the moment it costs <span class="text-danger">{{ record.sale }}</span> at a discounted
+    <p>Well, at the moment it costs <span class="text-danger font-weight-bold">${{ record.sale }}</span> at a discounted
       price which costs <span
-          class="text-danger">{{ record.original }}</span> at full price.</p>
-    <p>This page was last updated {{ formatDistanceToNow(new Date(record.created_at)) }}.</p>
+          class="text-danger font-weight-bold">${{ record.original }}</span> at full price.</p>
+    <p class="text-muted"><small>This page was last updated {{ formatDistanceToNow(new Date(record.created_at)) }}.</small></p>
   </div>
   <h2 class="mt-5">Trends</h2>
-  <Chart :records="records"></Chart>
+  <div v-if="!records.length" class="mt-5 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="d-none">Loading...</span>
+      </div>
+  </div>
+  <Chart v-if="records.length" :records="records"></Chart>
 </template>
 
 <script>
@@ -29,14 +38,10 @@ export default {
   computed: {
     record() {
       if (this.records.length > 0) {
-      return this.records[0]
+        return this.records[this.records.length - 1]
       }
 
-      return {
-        sale: '-',
-        original: '-',
-        created_at: new Date()
-      }
+      return null
     },
   },
   methods: {formatDistanceToNow},
