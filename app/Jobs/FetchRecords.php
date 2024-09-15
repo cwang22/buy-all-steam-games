@@ -27,15 +27,13 @@ class FetchRecords implements ShouldQueue
 
     public function handle(Client $client)
     {
-        $json = json_decode($client->get('http://api.steampowered.com/ISteamApps/GetAppList/v2')->getBody(), true);
-        $lists = collect($json['applist']['apps'])->pluck('appid');
-        $chunks = $lists->chunk(config('steam.chunk_size'));
-
         $original = 0;
         $sale = 0;
 
-        foreach ($chunks as $chunk) {
-            $appids = $chunk->implode(',');
+        $json = json_decode($client->get('http://api.steampowered.com/ISteamApps/GetAppList/v2')->getBody(), true);
+
+        foreach (array_chunk($json['applist']['apps'], (int) config('steam.chunk_size')) as $chunk) {
+            $appids = collect($chunk)->pluck('appid')->implode(',');
             $json = json_decode($client->get('http://store.steampowered.com/api/appdetails/', [
                 'query' => [
                     'appids'  => $appids,
@@ -43,6 +41,7 @@ class FetchRecords implements ShouldQueue
                     'v'       => 1,
                     'filters' => 'price_overview',
                 ],
+                'verify' => false,
             ])->getBody(), true);
 
             $results = collect($json);
