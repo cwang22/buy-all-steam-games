@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ $locale ?? 'en' }}">
 <head>
     @includeIf('partials.header')
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>How much does it cost to buy all Steam games</title>
+    <title>{{ __('How much does it cost to buy all Steam games') }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

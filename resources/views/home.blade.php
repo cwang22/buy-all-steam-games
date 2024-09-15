@@ -3,9 +3,13 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <h1 class="mt-5">Buy All Steam Games</h1>
+            <h1 class="mt-5">{{ __('Buy All Steam Games') }}</h1>
             <div class="mt-5">
-                <p>English | <a href="{{ url('/zh') }}">中文</a></p>
+                @if($locale === 'zh')
+                    <p><a href="{{ url('/?locale=en') }}">English</a> | 中文</p>
+                @else
+                    <p>English | <a href="{{ url('/?locale=zh') }}">中文</a></p>
+                @endif
             </div>
             <div class="mt-3">
                 <a class="github-button" href="https://github.com/cwang22" data-size="large" data-show-count="true"
@@ -13,16 +17,29 @@
                 <a class="github-button" href="https://github.com/cwang22/buy-all-steam-games" data-size="large"
                    data-show-count="true" aria-label="Star cwang22/buy-all-steam-games on GitHub">Star</a>
             </div>
-            <Home></Home>
+            <div class="mt-5">
+                <p>{{ __('Ever wonder how much does it cost to buy all games from Steam?') }}</p>
+                <p>{!! __('Well, at the moment it costs :sale at a discounted price which costs :original at full price.', [
+                    'sale' => sprintf('<span class="text-danger font-weight-bold">$%s</span>', $record->sale / 100),
+                    'original' => sprintf('<span class="text-danger font-weight-bold">$%s</span>', $record->original / 100)
+                    ]
+                )  !!}</p>
+                <p class="text-muted"><small>{{ __('This page was last updated :created_at, based on the price of the :cc region.', [
+                        'created_at' => $record->created_at->diffForHumans(),
+                        'cc' => $record->cc
+                    ]) }}</small></p>
+            </div>
+            <h2 class="mt-5">{{ __('Trends') }}</h2>
+            <Chart></Chart>
 
-            <h2 class="mt-5 pt-5">How does it work?</h2>
-            <p>This page was inspired by <a
-                        href="http://buyallofsteam.appspot.com/" target="_blank">http://buyallofsteam.appspot.com/</a>,
-                but it hasn't
-                been updated since 2014.</p>
-            <p>This page however is based on PHP and Laravel, and automatically fetch daily.</p>
+            <h2 class="mt-5 pt-5">{{ __('How does it work?') }}</h2>
+            <p>{!! __('This page was inspired by :link, but it hasn\'t been updated since 2014.', 
+                ['link' => '<a href="http://buyallofsteam.appspot.com/" target="_blank">http://buyallofsteam.appspot.com/</a>']) !!}</p>
+            <p>{{ __('This page however is based on PHP and Laravel, and automatically fetch daily.') }}</p>
             <h2 class="mt-5">API</h2>
-            <p>You can hit <code>{{url('api/records')}}</code> to get all the data. It should look like this.</p>
+            <p>{!! __('You can hit :link to get all the data. It should look like this.',
+                ['link' => sprintf('<code>%s</code>', url('api/records'))]) !!}
+            </p>
             <pre>
             {
                 "data": [

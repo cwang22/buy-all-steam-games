@@ -1,0 +1,12 @@
+{
+  "How much does it cost to buy all Steam games": "买下所有 Steam 游戏要多少钱?",
+  "Buy All Steam Games": "买下所有 Steam 游戏要多少钱?",
+  "Ever wonder how much does it cost to buy all games from Steam?": "你有没有想过买下所有 Steam 游戏要花多少钱？",
+  "Trends": "趋势",
+  "How does it work?": "数据是怎么得到的？",
+  "This page was inspired by :link, but it hasn't been updated since 2014.": "这个网站的灵感来源于 :link，但是原帖从 2014 年之后就没有更新了。",
+  "This page however is based on PHP and Laravel, and automatically fetch daily.": "于是我就用 Laravel 做了这么一个网站，每天自动获取数据。",
+  "You can hit :link to get all the data. It should look like this.": "你可以访问 :link 来获取所有历史数据，API 大概长下面这样：",
+  "Well, at the moment it costs :sale at a discounted price which costs :original at full price.": "截至目前，Steam 所有游戏打折后的价格为 :sale，而原价则为 :original。",
+  "This page was last updated :created_at, based on the price of the :cc region.": "这一数据更新于 :created_at , 取自 :cc 区的数据。"
+}

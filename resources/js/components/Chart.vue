@@ -1,14 +1,20 @@
 <template>
     <div>
+      <div v-if="!records.length" class="mt-5 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="d-none">Loading...</span>
+        </div>
+      </div>
+      <div v-else>
         <div class="float-right">
-            <button v-for="button in buttons" :key="button" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
+          <button v-for="button in buttons" :key="button" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
         </div>
 
         <div class="wrapper">
-            <Line id="chart" :data="chartData" :options="chartOptions" />
+          <Line id="chart" :data="chartData" :options="chartOptions" />
         </div>
+      </div>
     </div>
-
 </template>
 <script>
     import {
@@ -37,12 +43,12 @@
     )
 
     export default {
-        props: ['records'],
         components: {
             Line
         },
         data() {
             return {
+                records: [],
                 currentButton: 'All',
                 chartOptions: {
                     responsive: true,
@@ -138,6 +144,10 @@
                 if (button === this.currentButton) return
                 this.currentButton = button
             }
+        },
+        mounted: async function () {
+          const response = await fetch('/api/records')
+          this.records = (await response.json()).data
         }
     }
 </script>

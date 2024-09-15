@@ -3,7 +3,7 @@ import { createApp } from 'vue/dist/vue.esm-bundler';
 
 const app = createApp();
 
-import Home from './components/Home.vue';
-app.component('home', Home);
+import Chart from './components/Chart.vue';
+app.component('chart', Chart);
 
 app.mount('#app');
