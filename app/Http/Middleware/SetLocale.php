@@ -14,6 +14,7 @@ class SetLocale
         if ($locale) {
             app()->setLocale($locale);
         }
+
         return $next($request);
     }
 }
