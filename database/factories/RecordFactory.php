@@ -25,7 +25,6 @@ class RecordFactory extends Factory
             'original' => $this->faker->randomFloat(2),
             'sale'     => $this->faker->randomFloat(2),
             'cc'       => 'US',
-            'language' => 'english',
         ];
     }
 }

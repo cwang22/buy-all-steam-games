@@ -12,10 +12,12 @@ class FetchRecords extends Command
 
     protected $description = 'fetches amount of prices of all Steam games';
 
-    public function handle()
+    public function handle(): int
     {
         foreach ($this->argument('countries') as $country) {
             FetchRecordsJob::dispatch(Str::upper($country));
         }
+
+        return 0;
     }
 }

@@ -25,7 +25,7 @@ class FetchRecords implements ShouldQueue
         $this->country = $country;
     }
 
-    public function handle(Client $client)
+    public function handle(Client $client): void
     {
         $original = 0;
         $sale = 0;
