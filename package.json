@@ -7,7 +7,7 @@
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
         "@vue/compiler-sfc": "^3.1.0",
-        "bootstrap": "^4.5.2",
+        "bootstrap": "^5.0.1",
         "chart.js": "^4.4.4",
         "chartjs-adapter-date-fns": "^3.0.0",
         "cross-env": "^7.0",
