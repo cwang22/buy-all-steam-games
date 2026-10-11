@@ -5,21 +5,16 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^5.0.4",
-        "@vue/compiler-sfc": "^3.1.0",
-        "bootstrap": "^4.5.2",
-        "chart.js": "^4.4.4",
+        "@vitejs/plugin-vue": "^6.0.10",
+        "bootstrap": "^4.6.2",
+        "chart.js": "^4.5.1",
         "chartjs-adapter-date-fns": "^3.0.0",
-        "cross-env": "^7.0",
-        "date-fns": "^3.6.0",
-        "laravel-vite-plugin": "^1.0.2",
-        "moment": "^2.29.4",
-        "resolve-url-loader": "^5.0.0",
-        "sass": "^1.26.11",
-        "sass-loader": "^8.0.2",
-        "vite": "^5.4.11",
-        "vue": "^3.1.0",
-        "vue-chartjs": "^5.3.1"
+        "date-fns": "^4.4.0",
+        "laravel-vite-plugin": "^3.2.0",
+        "sass": "^1.105.1",
+        "vite": "^8.3.4",
+        "vue": "^3.5.43",
+        "vue-chartjs": "^5.3.4"
     },
     "type": "module"
 }

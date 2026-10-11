@@ -22,6 +22,16 @@ export default defineConfig({
             },
         }),
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                // Bootstrap 4's SCSS predates Dart Sass's module system and
+                // floods the build with deprecation warnings we can't act on.
+                quietDeps: true,
+                silenceDeprecations: ['import'],
+            },
+        },
+    },
     resolve: {
         alias: [
             {
