@@ -21,3 +21,4 @@ php artisan test --filter it_works                 # one test
 
 - `resources/views/partials/*.blade.php` and `public/ads.txt` are gitignored on purpose: they hold ads/analytics and exist only on the server.
 - Code style is applied by StyleCI on PRs; there is no local linter config.
+- Production monitoring is Laravel Nightwatch: `php artisan nightwatch:agent` must run under a process monitor on the server. It is disabled locally and in tests via `NIGHTWATCH_ENABLED=false`.

@@ -3,13 +3,13 @@
 namespace App\Jobs;
 
 use App\Models\Record;
-use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
 use RuntimeException;
@@ -28,7 +28,7 @@ class FetchRecords implements ShouldQueue
         $this->country = $country;
     }
 
-    public function handle(Client $client): void
+    public function handle(): void
     {
         $original = 0;
         $sale = 0;
@@ -37,18 +37,16 @@ class FetchRecords implements ShouldQueue
 
         Log::info("[fetch:{$this->country}] Started");
 
-        $chunks = array_chunk($this->fetchAppIds($client), (int) config('steam.chunk_size'));
+        $chunks = array_chunk($this->fetchAppIds(), (int) config('steam.chunk_size'));
         $total = count($chunks);
 
         foreach ($chunks as $i => $chunk) {
-            $json = json_decode($client->get('https://store.steampowered.com/api/appdetails/', [
-                'query' => [
-                    'appids'  => implode(',', $chunk),
-                    'cc'      => $this->country,
-                    'v'       => 1,
-                    'filters' => 'price_overview',
-                ],
-            ])->getBody(), true);
+            $json = Http::get('https://store.steampowered.com/api/appdetails/', [
+                'appids'  => implode(',', $chunk),
+                'cc'      => $this->country,
+                'v'       => 1,
+                'filters' => 'price_overview',
+            ])->throw()->json();
 
             foreach ($json ?? [] as $result) {
                 if (!isset($result['data']['price_overview'])) {
@@ -96,7 +94,7 @@ class FetchRecords implements ShouldQueue
      *
      * @return int[]
      */
-    protected function fetchAppIds(Client $client): array
+    protected function fetchAppIds(): array
     {
         $key = config('steam.api_key');
 
@@ -109,18 +107,16 @@ class FetchRecords implements ShouldQueue
         $page = 0;
 
         do {
-            $json = json_decode($client->get('https://api.steampowered.com/IStoreService/GetAppList/v1/', [
-                'query' => [
-                    'key'              => $key,
-                    'max_results'      => 50000,
-                    'last_appid'       => $lastAppId,
-                    'include_games'    => 'true',
-                    'include_dlc'      => 'true',
-                    'include_software' => 'true',
-                    'include_videos'   => 'true',
-                    'include_hardware' => 'true',
-                ],
-            ])->getBody(), true)['response'] ?? [];
+            $json = Http::get('https://api.steampowered.com/IStoreService/GetAppList/v1/', [
+                'key'              => $key,
+                'max_results'      => 50000,
+                'last_appid'       => $lastAppId,
+                'include_games'    => 'true',
+                'include_dlc'      => 'true',
+                'include_software' => 'true',
+                'include_videos'   => 'true',
+                'include_hardware' => 'true',
+            ])->throw()->json('response') ?? [];
 
             foreach ($json['apps'] ?? [] as $app) {
                 $appIds[] = $app['appid'];
