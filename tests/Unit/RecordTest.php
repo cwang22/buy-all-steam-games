@@ -5,11 +5,12 @@ namespace Tests\Unit;
 use App\Http\Resources\RecordResource;
 use App\Models\Record;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RecordTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_converts_cents_to_dollars()
     {
         $record = Record::factory()->make([

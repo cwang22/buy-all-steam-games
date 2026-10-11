@@ -4,13 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Record;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class HomepageTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_works()
     {
         Record::factory()->create(['original' => 23344827, 'sale' => 22925934]);
@@ -21,7 +22,7 @@ class HomepageTest extends TestCase
             ->assertSee('$229259.34');
     }
 
-    /** @test */
+    #[Test]
     public function api_works()
     {
         Record::factory()->create(['original' => 23344827, 'sale' => 22925934]);
@@ -32,7 +33,7 @@ class HomepageTest extends TestCase
             ->assertJsonPath('data.0.sale', 229259.34);
     }
 
-    /** @test */
+    #[Test]
     public function it_display_message_when_no_data_available()
     {
         $this->get('/')

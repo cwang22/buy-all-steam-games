@@ -8,21 +8,19 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.2.0",
         "ext-json": "*",
-        "doctrine/dbal": "^3.2",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^10.0",
-        "laravel/tinker": "^2.7",
-        "predis/predis": "^1.1"
+        "php": "^8.2.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10",
+        "predis/predis": "^2.3"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.3",
-        "fakerphp/faker": "^1.9.1",
-        "nunomaduro/collision": "^7.0",
-        "mockery/mockery": "^1.3.1",
-        "phpunit/phpunit": "^10.0",
-        "spatie/laravel-ignition": "^2.0"
+        "barryvdh/laravel-ide-helper": "^3.5",
+        "fakerphp/faker": "^1.23",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^11.5"
     },
     "autoload": {
         "classmap": [
