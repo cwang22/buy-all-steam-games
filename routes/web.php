@@ -15,4 +15,3 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [SteamController::class, 'index']);
-Route::get('/zh', [SteamController::class, 'zh']);

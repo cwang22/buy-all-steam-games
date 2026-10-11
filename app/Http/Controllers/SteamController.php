@@ -9,9 +9,15 @@ class SteamController extends Controller
 {
     public function index(): View
     {
+        $record = Record::where(['cc' => 'US'])->latest()->first();
+
+        if ($record === null) {
+            return view('empty', ['locale' => app()->getLocale()]);
+        }
+
         return view('home', [
             'locale' => app()->getLocale(),
-            'record' => Record::where(['cc' => 'US'])->latest()->first(),
+            'record' => $record,
         ]);
     }
 }

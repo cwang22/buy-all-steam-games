@@ -22,8 +22,8 @@ class RecordFactory extends Factory
     public function definition()
     {
         return [
-            'original' => $this->faker->randomFloat(2),
-            'sale'     => $this->faker->randomFloat(2),
+            'original' => $this->faker->numberBetween(1, 100_000_000),
+            'sale'     => $this->faker->numberBetween(1, 100_000_000),
             'cc'       => 'US',
         ];
     }
