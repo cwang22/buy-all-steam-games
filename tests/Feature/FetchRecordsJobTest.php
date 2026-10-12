@@ -72,6 +72,41 @@ class FetchRecordsJobTest extends TestCase
     }
 
     #[Test]
+    public function it_retries_price_batches_on_server_errors()
+    {
+        Http::fake([
+            'api.steampowered.com/*' => Http::response(['response' => ['apps' => [['appid' => 10]]]]),
+            'store.steampowered.com/*' => Http::sequence()
+                ->push('Internal Server Error', 500)
+                ->push('Too Many Requests', 429)
+                ->push(['10' => ['success' => true, 'data' => ['price_overview' => ['initial' => 999, 'final' => 499]]]]),
+        ]);
+
+        (new FetchRecords('US'))->handle();
+
+        $this->assertSame(999, Record::sole()->original);
+    }
+
+    #[Test]
+    public function it_gives_up_when_price_batches_keep_failing()
+    {
+        Http::fake([
+            'api.steampowered.com/*' => Http::response(['response' => ['apps' => [['appid' => 10]]]]),
+            'store.steampowered.com/*' => Http::response('Internal Server Error', 500),
+        ]);
+
+        try {
+            (new FetchRecords('US'))->handle();
+            $this->fail('Expected a RequestException.');
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            $this->assertSame(500, $e->response->status());
+        }
+
+        Http::assertSentCount(5);
+        $this->assertSame(0, Record::count());
+    }
+
+    #[Test]
     public function it_requires_an_api_key()
     {
         config(['steam.api_key' => null]);

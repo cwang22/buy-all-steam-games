@@ -6,6 +6,7 @@ use App\Models\Record;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
 use RuntimeException;
+use Throwable;
 
 class FetchRecords implements ShouldQueue
 {
@@ -41,7 +43,11 @@ class FetchRecords implements ShouldQueue
         $total = count($chunks);
 
         foreach ($chunks as $i => $chunk) {
-            $json = Http::get('https://store.steampowered.com/api/appdetails/', [
+            // The store API sporadically returns 5xx/429, especially to datacenter IPs.
+            // Back off and retry so one bad batch doesn't throw away the whole run.
+            $json = Http::retry([10000, 30000, 60000], when: fn (Throwable $e) => $e instanceof RequestException
+                && ($e->response->serverError() || $e->response->tooManyRequests())
+            )->get('https://store.steampowered.com/api/appdetails/', [
                 'appids'  => implode(',', $chunk),
                 'cc'      => $this->country,
                 'v'       => 1,
