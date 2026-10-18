@@ -40,4 +40,14 @@ class HomepageTest extends TestCase
             ->assertSuccessful()
             ->assertSee('No data available.');
     }
+
+    #[Test]
+    public function it_ignores_invalid_locale()
+    {
+        $this->get('/?locale=../../etc/passwd')
+            ->assertSuccessful()
+            ->assertSee('<html lang="en">', false);
+
+        $this->get('/?locale[]=zh')->assertSuccessful();
+    }
 }

@@ -11,7 +11,7 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->input('locale');
-        if ($locale) {
+        if (in_array($locale, ['en', 'zh'], true)) {
             app()->setLocale($locale);
         }
 
