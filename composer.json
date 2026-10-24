@@ -13,7 +13,8 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^12.0",
         "laravel/nightwatch": "^1.30",
-        "laravel/tinker": "^2.10"
+        "laravel/tinker": "^2.10",
+        "predis/predis": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

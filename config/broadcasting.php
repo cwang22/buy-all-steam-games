@@ -11,7 +11,7 @@ return [
     | framework when an event needs to be broadcast. You may set this to
     | any of the connections defined in the "connections" array below.
     |
-    | Supported: "pusher", "log", "null"
+    | Supported: "pusher", "redis", "log", "null"
     |
     */
 
@@ -38,6 +38,11 @@ return [
             'options' => [
                 //
             ],
+        ],
+
+        'redis' => [
+            'driver'     => 'redis',
+            'connection' => 'default',
         ],
 
         'log' => [
