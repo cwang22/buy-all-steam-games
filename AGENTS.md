@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Laravel 12 / PHP 8.2 app that sums the price of every Steam game daily and charts the trend. Live at http://steam.seewang.me.
+Laravel 13 / PHP 8.4+ app that sums the price of every Steam game daily and charts the trend. Live at http://steam.seewang.me.
 
 ## Commands
 
