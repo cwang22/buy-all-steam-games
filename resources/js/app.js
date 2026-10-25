@@ -1,9 +1,9 @@
-import '../sass/app.scss';
-import { createApp } from 'vue/dist/vue.esm-bundler';
-
-const app = createApp();
-
+import '../css/app.css';
+import { createApp } from 'vue';
 import Chart from './components/Chart.vue';
-app.component('chart', Chart);
 
-app.mount('#app');
+const el = document.getElementById('trend-chart');
+
+if (el) {
+    createApp(Chart, { labels: JSON.parse(el.dataset.labels) }).mount(el);
+}

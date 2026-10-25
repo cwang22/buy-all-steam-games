@@ -1,158 +1,220 @@
 <template>
     <div>
-      <div v-if="!records.length" class="mt-5 text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="d-none">Loading...</span>
+        <div class="chart-header">
+            <h2>{{ labels.title }}</h2>
+            <ul class="legend">
+                <li><span class="swatch is-sale"></span>{{ labels.sale }}</li>
+                <li><span class="swatch is-original"></span>{{ labels.original }}</li>
+            </ul>
         </div>
-      </div>
-      <div v-else>
-        <div class="float-right">
-          <button v-for="button in buttons" :key="button" type="button" class="btn ml-2" :class="buttonClass(button)" @click="update(button)">{{button}}</button>
+        <div class="chart-wrapper">
+            <Line v-if="records.length" :data="chartData" :options="chartOptions"/>
+            <div v-else class="chart-status">{{ labels.loading }}</div>
         </div>
-
-        <div class="wrapper">
-          <Line id="chart" :data="chartData" :options="chartOptions" />
+        <div v-if="records.length" class="tabs" role="group">
+            <button v-for="(label, range) in labels.ranges" :key="range" type="button"
+                    :aria-pressed="currentRange === range" @click="currentRange = range">{{ label }}</button>
         </div>
-      </div>
     </div>
 </template>
 <script>
     import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    TimeScale,
-    } from 'chart.js'
-    import { Line } from 'vue-chartjs'
-    import 'chartjs-adapter-date-fns'
-
-    ChartJS.register(
-        CategoryScale,
+        Chart as ChartJS,
         LinearScale,
         PointElement,
         LineElement,
-        Title,
         Tooltip,
-        Legend,
+        TimeScale,
+    } from 'chart.js'
+    import { Line } from 'vue-chartjs'
+    import 'chartjs-adapter-date-fns'
+    import { enUS, zhCN } from 'date-fns/locale'
+
+    ChartJS.register(
+        LinearScale,
+        PointElement,
+        LineElement,
+        Tooltip,
         TimeScale,
     )
+
+    const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
+    const compactCurrency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        notation: 'compact',
+        maximumFractionDigits: 1,
+    })
+    const lightScheme = window.matchMedia('(prefers-color-scheme: light)')
+
+    // Chart.js draws on a canvas, so it can't use the CSS variables directly.
+    function readTheme() {
+        const style = getComputedStyle(document.documentElement)
+        const css = name => style.getPropertyValue(name).trim()
+
+        return {
+            text: css('--text'),
+            muted: css('--muted'),
+            border: css('--border'),
+            surface: css('--surface-raised'),
+            accent: css('--accent'),
+        }
+    }
+
+    async function fetchRecords(url) {
+        const response = await fetch(url)
+
+        return (await response.json()).data.map(record => ({
+            ...record,
+            x: new Date(record.created_at)
+        }))
+    }
 
     export default {
         components: {
             Line
         },
+        props: {
+            labels: {
+                type: Object,
+                required: true
+            }
+        },
         data() {
             return {
-                records: [],
-                currentButton: 'All',
-                chartOptions: {
+                weekly: [],
+                daily: null,
+                dailyRequested: false,
+                currentRange: 'all',
+                theme: readTheme(),
+            }
+        },
+        computed: {
+            // "All" only needs one point per week, so the full daily history
+            // is fetched only once a shorter range is picked.
+            records() {
+                return this.currentRange === 'all' ? this.weekly : (this.daily ?? this.weekly)
+            },
+            chartOptions() {
+                const theme = this.theme
+
+                return {
                     responsive: true,
                     maintainAspectRatio: false,
-                    title: {
-                        display: true,
-                        text: 'Total Price (USD)'
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
                     },
                     plugins: {
+                        // Drawn as HTML in the header instead.
+                        legend: {
+                            display: false
+                        },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    elements: {
-                        point: {
-                            radius: 0
+                            backgroundColor: theme.surface,
+                            borderColor: theme.border,
+                            borderWidth: 1,
+                            titleColor: theme.text,
+                            bodyColor: theme.text,
+                            padding: 10,
+                            callbacks: {
+                                label: item => `${item.dataset.label}: ${currency.format(item.parsed.y)}`
+                            }
                         }
                     },
                     scales: {
                         x: {
                             type: 'time',
+                            adapters: {
+                                date: {
+                                    locale: document.documentElement.lang === 'zh' ? zhCN : enUS
+                                }
+                            },
+                            grid: {
+                                display: false
+                            },
+                            border: {
+                                color: theme.border
+                            },
                             ticks: {
-                                maxTicksLimit: 30
+                                color: theme.muted,
+                                maxTicksLimit: 8,
+                                maxRotation: 0
                             }
                         },
                         y: {
-                            beginAtZero: true
+                            grid: {
+                                color: theme.border
+                            },
+                            border: {
+                                display: false
+                            },
+                            ticks: {
+                                color: theme.muted,
+                                callback: value => compactCurrency.format(value)
+                            }
                         }
                     }
                 }
-            }
-        },
-        computed: {
-            buttons() {
-                return ['All', 'Year', 'Month']
             },
             chartData() {
+                const since = new Date()
+                if (this.currentRange === 'year') {
+                    since.setFullYear(since.getFullYear() - 1)
+                } else if (this.currentRange === 'month') {
+                    since.setMonth(since.getMonth() - 1)
+                }
 
-                const filterData = (data) => {
-                    if (this.currentButton === 'Year') {
-                        const oneYearAgo = new Date();
-                        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-                        return data.filter(item => item.x >= oneYearAgo);
-                    }
-                    if (this.currentButton === 'Month') {
-                        const oneMonthAgo = new Date();
-                        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-                        return data.filter(item => item.x >= oneMonthAgo);
-                    }
-                    return data;
-                };
+                const records = this.currentRange === 'all'
+                    ? this.records
+                    : this.records.filter(record => record.x >= since)
 
-                const sale = filterData(this.records.map(record => {
-                    return {
-                        x: new Date(record.created_at),
-                        y: record.sale
-                    }
-                }));
-
-                const original = filterData(this.records.map(record => {
-                    return {
-                        x: new Date(record.created_at),
-                        y: record.original
-                    }
-                }));
-                
                 return {
                     datasets: [
                         {
-                            label: 'Sale Price',
-                            data: sale,
-                            borderColor: '#0074D9',
+                            label: this.labels.sale,
+                            data: records.map(record => ({ x: record.x, y: record.sale })),
+                            borderColor: this.theme.accent,
+                            backgroundColor: this.theme.accent,
+                            borderWidth: 2.5,
                             pointRadius: 0,
                             pointHoverRadius: 5,
-                            pointHoverBackgroundColor: '#0074D9'
+                            pointHoverBackgroundColor: this.theme.accent
                         },
                         {
-                            label: 'Original Price',
-                            data: original,
+                            label: this.labels.original,
+                            data: records.map(record => ({ x: record.x, y: record.original })),
+                            borderColor: this.theme.text,
+                            backgroundColor: this.theme.text,
+                            borderWidth: 1.5,
                             pointRadius: 0,
-                            pointHoverRadius: 5
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: this.theme.text
                         }
                     ]
                 }
             }
         },
+        watch: {
+            async currentRange(range) {
+                if (range !== 'all' && !this.dailyRequested) {
+                    this.dailyRequested = true
+                    this.daily = await fetchRecords('/api/records')
+                }
+            }
+        },
         methods: {
-            buttonClass(button) {
-                return this.currentButton === button ? 'btn-dark' : 'btn-outline-dark'
-            },
-            update(button) {
-                if (button === this.currentButton) return
-                this.currentButton = button
+            updateTheme() {
+                this.theme = readTheme()
             }
         },
         mounted: async function () {
-          const response = await fetch('/api/records')
-          this.records = (await response.json()).data
+            lightScheme.addEventListener('change', this.updateTheme)
+
+            this.weekly = await fetchRecords('/api/records?interval=week')
+        },
+        unmounted() {
+            lightScheme.removeEventListener('change', this.updateTheme)
         }
     }
 </script>
-<style scoped>
-    .wrapper {
-        height: 50vh;
-    }
-</style>

@@ -28,11 +28,32 @@ jobs:
 
   assets:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      # public/build is committed, so Dependabot's npm bumps need it rebuilt.
+      IS_DEPENDABOT: ${{ github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Check out the PR branch itself (not the merge commit) so the build can be pushed back.
+          ref: ${{ env.IS_DEPENDABOT == 'true' && github.head_ref || '' }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npm run build
+
+      - name: Commit rebuilt assets to the Dependabot PR
+        if: env.IS_DEPENDABOT == 'true'
+        run: |
+          git add -A public/build
+          if git diff --cached --quiet; then
+            echo "public/build is up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Rebuild public/build"
+          git push
