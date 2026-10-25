@@ -1,21 +1,19 @@
 <template>
     <div>
         <div class="chart-header">
-            <div class="chart-title">
-                <h2>{{ labels.title }}</h2>
-                <ul class="legend">
-                    <li><span class="swatch is-sale"></span>{{ labels.sale }}</li>
-                    <li><span class="swatch is-original"></span>{{ labels.original }}</li>
-                </ul>
-            </div>
-            <div v-if="records.length" class="segmented" role="group">
-                <button v-for="(label, range) in labels.ranges" :key="range" type="button"
-                        :aria-pressed="currentRange === range" @click="currentRange = range">{{ label }}</button>
-            </div>
+            <h2>{{ labels.title }}</h2>
+            <ul class="legend">
+                <li><span class="swatch is-sale"></span>{{ labels.sale }}</li>
+                <li><span class="swatch is-original"></span>{{ labels.original }}</li>
+            </ul>
         </div>
         <div class="chart-wrapper">
             <Line v-if="records.length" :data="chartData" :options="chartOptions"/>
             <div v-else class="chart-status">{{ labels.loading }}</div>
+        </div>
+        <div v-if="records.length" class="tabs" role="group">
+            <button v-for="(label, range) in labels.ranges" :key="range" type="button"
+                    :aria-pressed="currentRange === range" @click="currentRange = range">{{ label }}</button>
         </div>
     </div>
 </template>
@@ -25,9 +23,7 @@
         LinearScale,
         PointElement,
         LineElement,
-        Filler,
         Tooltip,
-        Legend,
         TimeScale,
     } from 'chart.js'
     import { Line } from 'vue-chartjs'
@@ -38,9 +34,7 @@
         LinearScale,
         PointElement,
         LineElement,
-        Filler,
         Tooltip,
-        Legend,
         TimeScale,
     )
 
@@ -64,7 +58,6 @@
             border: css('--border'),
             surface: css('--surface-raised'),
             accent: css('--accent'),
-            accentSoft: css('--accent-soft'),
         }
     }
 
@@ -182,9 +175,8 @@
                             label: this.labels.sale,
                             data: records.map(record => ({ x: record.x, y: record.sale })),
                             borderColor: this.theme.accent,
-                            backgroundColor: this.theme.accentSoft,
-                            borderWidth: 2,
-                            fill: 'start',
+                            backgroundColor: this.theme.accent,
+                            borderWidth: 2.5,
                             pointRadius: 0,
                             pointHoverRadius: 5,
                             pointHoverBackgroundColor: this.theme.accent
@@ -192,13 +184,12 @@
                         {
                             label: this.labels.original,
                             data: records.map(record => ({ x: record.x, y: record.original })),
-                            borderColor: this.theme.muted,
-                            backgroundColor: this.theme.muted,
+                            borderColor: this.theme.text,
+                            backgroundColor: this.theme.text,
                             borderWidth: 1.5,
-                            borderDash: [4, 4],
                             pointRadius: 0,
                             pointHoverRadius: 5,
-                            pointHoverBackgroundColor: this.theme.muted
+                            pointHoverBackgroundColor: this.theme.text
                         }
                     ]
                 }

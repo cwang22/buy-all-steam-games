@@ -20,7 +20,24 @@ class HomepageTest extends TestCase
             ->assertSuccessful()
             ->assertSee('$233,448.27')
             ->assertSee('$229,259.34')
-            ->assertSee('-2%');
+            ->assertSee('2%</strong> off', false);
+    }
+
+    #[Test]
+    public function it_shows_facts_about_past_sales()
+    {
+        Record::factory()->create(['original' => 100000, 'sale' => 99000, 'created_at' => '2024-06-20']);
+        Record::factory()->create(['original' => 100000, 'sale' => 59000, 'created_at' => '2024-06-27']);
+        Record::factory()->create(['original' => 100000, 'sale' => 62000, 'created_at' => '2024-06-28']);
+        Record::factory()->create(['original' => 110000, 'sale' => 81400, 'created_at' => '2024-11-27']);
+        Record::factory()->create(['original' => 120000, 'sale' => 118000, 'created_at' => '2024-12-05']);
+
+        $this->get('/')
+            ->assertSuccessful()
+            ->assertSee('1.2×')
+            ->assertSee('Deepest discount on record, during Summer Sale 2024.')
+            ->assertSee('Lowest total during Autumn Sale 2024, 26% below full price.')
+            ->assertSee('$814');
     }
 
     #[Test]
