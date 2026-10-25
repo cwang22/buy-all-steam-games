@@ -18,8 +18,9 @@ class HomepageTest extends TestCase
 
         $this->get('/')
             ->assertSuccessful()
-            ->assertSee('$233448.27')
-            ->assertSee('$229259.34');
+            ->assertSee('$233,448.27')
+            ->assertSee('$229,259.34')
+            ->assertSee('-2%');
     }
 
     #[Test]

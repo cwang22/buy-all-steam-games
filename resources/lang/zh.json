@@ -7,6 +7,14 @@
   "This page was inspired by :link, but it hasn't been updated since 2014.": "这个网站的灵感来源于 :link，但是原帖从 2014 年之后就没有更新了。",
   "This page however is based on PHP and Laravel, and automatically fetch daily.": "于是我就用 Laravel 做了这么一个网站，每天自动获取数据。",
   "You can hit :link to get all the data. It should look like this.": "你可以访问 :link 来获取所有历史数据，API 大概长下面这样：",
-  "Well, at the moment it costs :sale at a discounted price which costs :original at full price.": "截至目前，Steam 所有游戏打折后的价格为 :sale，而原价则为 :original。",
-  "This page was last updated :created_at, based on the price of the :cc region.": "这一数据更新于 :created_at , 取自 :cc 区的数据。"
+  "Updated :created_at, based on the price of the :cc region.": "数据更新于 :created_at，取自 :cc 区的价格。",
+  "On sale": "折扣价",
+  "Full price": "原价",
+  "You would save :amount": "可节省 :amount",
+  "What it costs without any discounts": "不打折时的总价",
+  "Loading…": "加载中…",
+  "All": "全部",
+  "1Y": "一年",
+  "1M": "一个月",
+  "No data available.": "暂无数据。"
 }
