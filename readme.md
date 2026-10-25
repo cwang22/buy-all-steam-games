@@ -8,9 +8,7 @@ You can check it out at https://steam.seewang.me
 
 ## How does it work?
 
-This application was inspired by http://buyallofsteam.appspot.com/, but it hasn't been updated since 2014.
-
-This application however is based on PHP and Laravel. Once a day it pages through every app on Steam with the Steam Web API, adds up the store prices, and saves the discounted and full-price totals. The homepage charts the history and picks out Steam sales (runs of days at 20% or more off) to show the deepest discount on record and the lowest total of the latest sale.
+This application is built with PHP and Laravel. Once a day it pages through every app on Steam with the Steam Web API and adds up the store prices to get both the discounted and the full-price totals. The homepage charts the history and picks out Steam sales (runs of days at 20% or more off) to show the deepest discount on record and the lowest total of the latest sale.
 
 ## API
 
