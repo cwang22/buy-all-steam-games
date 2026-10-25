@@ -38,7 +38,7 @@ jobs:
         with:
           # Check out the PR branch itself (not the merge commit) so the build can be pushed back.
           ref: ${{ env.IS_DEPENDABOT == 'true' && github.head_ref || '' }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
