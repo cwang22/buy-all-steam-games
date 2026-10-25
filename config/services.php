@@ -39,4 +39,9 @@ return [
         'id' => env('GOOGLE_ANALYTICS_TRACKING_ID'),
     ],
 
+    'cloudflare' => [
+        'zone_id'   => env('CLOUDFLARE_ZONE_ID'),
+        'api_token' => env('CLOUDFLARE_API_TOKEN'),
+    ],
+
 ];

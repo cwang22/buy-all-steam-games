@@ -81,6 +81,18 @@ class HomepageTest extends TestCase
     }
 
     #[Test]
+    public function pages_can_be_cached_by_cloudflare()
+    {
+        Record::factory()->create();
+
+        $home = $this->get('/');
+        $home->assertHeader('Cache-Control', 'max-age=300, public, s-maxage=86400');
+        $this->assertEmpty($home->headers->getCookies());
+
+        $this->get('/api/records')->assertHeader('Cache-Control', 'max-age=300, public, s-maxage=86400');
+    }
+
+    #[Test]
     public function it_display_message_when_no_data_available()
     {
         $this->get('/')

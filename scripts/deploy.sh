@@ -9,3 +9,4 @@ php artisan route:cache
 php artisan config:cache
 php artisan nightwatch:deploy "$(git rev-parse --short HEAD)" --ref="$(git rev-parse HEAD)"
 php artisan queue:restart
+php artisan cloudflare:purge

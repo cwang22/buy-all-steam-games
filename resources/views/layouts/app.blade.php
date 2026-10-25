@@ -12,9 +12,6 @@
 
     <title>{{ __('How much does it cost to buy all Steam games') }}</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     @vite(['resources/js/app.js'])
 </head>
 <body>

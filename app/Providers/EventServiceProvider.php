@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\RecordCreated;
+use App\Listeners\PurgeCloudflareCache;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,8 +14,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        RecordCreated::class => [
+            PurgeCloudflareCache::class,
         ],
     ];
 
