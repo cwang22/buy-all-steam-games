@@ -247,6 +247,39 @@ pre {
     margin: 0;
 }
 
+.chart-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 24px;
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.swatch {
+    width: 16px;
+    border-top: 2px solid var(--accent);
+}
+
+.swatch.is-original {
+    border-top: 2px dashed var(--muted);
+}
+
 .segmented {
     display: inline-flex;
     background: var(--surface-raised);

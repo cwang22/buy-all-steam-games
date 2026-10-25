@@ -35,6 +35,35 @@ class HomepageTest extends TestCase
     }
 
     #[Test]
+    public function api_returns_the_cheapest_record_of_each_week()
+    {
+        // 2024-01-01 is a Monday.
+        Record::factory()->create(['original' => 100, 'sale' => 90, 'created_at' => '2024-01-01 10:00:00']);
+        Record::factory()->create(['original' => 100, 'sale' => 60, 'created_at' => '2024-01-03 10:00:00']);
+        Record::factory()->create(['original' => 100, 'sale' => 95, 'created_at' => '2024-01-07 10:00:00']);
+        Record::factory()->create(['original' => 200, 'sale' => 180, 'created_at' => '2024-01-08 10:00:00']);
+
+        $this->get('/api/records?interval=week')
+            ->assertSuccessful()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('data.0.sale', 0.6)
+            ->assertJsonPath('data.0.created_at', '2024-01-03T10:00:00+00:00')
+            ->assertJsonPath('data.1.sale', 1.8);
+
+        $this->get('/api/records')->assertJsonCount(4, 'data');
+    }
+
+    #[Test]
+    public function api_cache_picks_up_new_records()
+    {
+        Record::factory()->create();
+        $this->get('/api/records')->assertJsonCount(1, 'data');
+
+        Record::factory()->create();
+        $this->get('/api/records')->assertJsonCount(2, 'data');
+    }
+
+    #[Test]
     public function it_display_message_when_no_data_available()
     {
         $this->get('/')

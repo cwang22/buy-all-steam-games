@@ -1,7 +1,13 @@
 <template>
     <div>
         <div class="chart-header">
-            <h2>{{ labels.title }}</h2>
+            <div class="chart-title">
+                <h2>{{ labels.title }}</h2>
+                <ul class="legend">
+                    <li><span class="swatch is-sale"></span>{{ labels.sale }}</li>
+                    <li><span class="swatch is-original"></span>{{ labels.original }}</li>
+                </ul>
+            </div>
             <div v-if="records.length" class="segmented" role="group">
                 <button v-for="(label, range) in labels.ranges" :key="range" type="button"
                         :aria-pressed="currentRange === range" @click="currentRange = range">{{ label }}</button>
@@ -62,6 +68,15 @@
         }
     }
 
+    async function fetchRecords(url) {
+        const response = await fetch(url)
+
+        return (await response.json()).data.map(record => ({
+            ...record,
+            x: new Date(record.created_at)
+        }))
+    }
+
     export default {
         components: {
             Line
@@ -74,12 +89,19 @@
         },
         data() {
             return {
-                records: [],
+                weekly: [],
+                daily: null,
+                dailyRequested: false,
                 currentRange: 'all',
                 theme: readTheme(),
             }
         },
         computed: {
+            // "All" only needs one point per week, so the full daily history
+            // is fetched only once a shorter range is picked.
+            records() {
+                return this.currentRange === 'all' ? this.weekly : (this.daily ?? this.weekly)
+            },
             chartOptions() {
                 const theme = this.theme
 
@@ -91,16 +113,9 @@
                         intersect: false
                     },
                     plugins: {
+                        // Drawn as HTML in the header instead.
                         legend: {
-                            align: 'start',
-                            labels: {
-                                padding: 16,
-                                color: theme.muted,
-                                boxWidth: 12,
-                                boxHeight: 12,
-                                usePointStyle: true,
-                                pointStyle: 'rectRounded'
-                            }
+                            display: false
                         },
                         tooltip: {
                             backgroundColor: theme.surface,
@@ -189,6 +204,14 @@
                 }
             }
         },
+        watch: {
+            async currentRange(range) {
+                if (range !== 'all' && !this.dailyRequested) {
+                    this.dailyRequested = true
+                    this.daily = await fetchRecords('/api/records')
+                }
+            }
+        },
         methods: {
             updateTheme() {
                 this.theme = readTheme()
@@ -197,11 +220,7 @@
         mounted: async function () {
             lightScheme.addEventListener('change', this.updateTheme)
 
-            const response = await fetch('/api/records')
-            this.records = (await response.json()).data.map(record => ({
-                ...record,
-                x: new Date(record.created_at)
-            }))
+            this.weekly = await fetchRecords('/api/records?interval=week')
         },
         unmounted() {
             lightScheme.removeEventListener('change', this.updateTheme)
