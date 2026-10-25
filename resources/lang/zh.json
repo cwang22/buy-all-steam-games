@@ -23,8 +23,7 @@
   "the sale of :date": ":date 的特卖",
   "F Y": "Y 年 n 月",
   "How does it work?": "数据是怎么得到的？",
-  "This page was inspired by :link, but it hasn't been updated since 2014.": "这个网站的灵感来源于 :link，但是原帖从 2014 年之后就没有更新了。",
-  "This page however is based on PHP and Laravel, and automatically fetch daily.": "于是我就用 Laravel 做了这么一个网站，每天自动获取数据。",
+  "Once a day this page goes through every app on Steam with the Steam Web API and adds up the store prices to get both the discounted and the full-price totals.": "本站每天通过 Steam Web API 遍历 Steam 上的所有应用，把商店价格加起来，得出折扣价和原价的总额。",
   "You can hit :link to get all the data.": "你可以访问 :link 来获取所有历史数据。",
   "No data available.": "暂无数据。"
 }
