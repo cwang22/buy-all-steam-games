@@ -9,7 +9,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
@@ -155,7 +154,5 @@ class FetchRecords implements ShouldQueue
             'sale'     => $sale,
             'cc'       => $this->country,
         ]);
-
-        Cache::pull('view');
     }
 }
