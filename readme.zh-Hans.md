@@ -8,9 +8,7 @@ https://steam.seewang.me
 
 ## 数据是怎么得到的？
 
-这个网站的灵感来源于 [http://buyallofsteam.appspot.com/](http://buyallofsteam.appspot.com/)，但是原帖从 2014 年之后就没有更新了。
-
-于是我就用 Laravel 做了这么一个网站。它每天通过 Steam Web API 遍历 Steam 上的所有应用，把商店价格加起来，保存折扣价和原价的总额。首页会画出价格走势，并找出 Steam 特卖（连续折扣在 20% 以上的日子），显示有记录以来的最大折扣和最近一次特卖的最低总价。
+这个网站基于 PHP 和 Laravel。它每天通过 Steam Web API 遍历 Steam 上的所有应用，把商店价格加起来，得出折扣价和原价的总额。首页会画出价格走势，并找出 Steam 特卖（连续折扣在 20% 以上的日子），显示有记录以来的最大折扣和最近一次特卖的最低总价。
 
 ## API
 

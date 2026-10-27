@@ -46,6 +46,7 @@
         maximumFractionDigits: 1,
     })
     const lightScheme = window.matchMedia('(prefers-color-scheme: light)')
+    const narrowScreen = window.matchMedia('(max-width: 640px)')
 
     // Chart.js draws on a canvas, so it can't use the CSS variables directly.
     function readTheme() {
@@ -70,6 +71,24 @@
         }))
     }
 
+    const NARROW_BUCKET_DAYS = 21
+
+    // A phone has about a pixel per weekly point, which turns the sale line
+    // into a sawtooth. Keep each bucket's cheapest record so big sales still dip.
+    function bucketLows(records, days) {
+        const lows = new Map()
+
+        for (const record of records) {
+            const bucket = Math.floor(record.x / (days * 86400000))
+
+            if (!lows.has(bucket) || record.sale < lows.get(bucket).sale) {
+                lows.set(bucket, record)
+            }
+        }
+
+        return [...lows.values()]
+    }
+
     export default {
         components: {
             Line
@@ -87,6 +106,7 @@
                 dailyRequested: false,
                 currentRange: 'all',
                 theme: readTheme(),
+                narrow: narrowScreen.matches,
             }
         },
         computed: {
@@ -138,7 +158,7 @@
                             },
                             ticks: {
                                 color: theme.muted,
-                                maxTicksLimit: 8,
+                                maxTicksLimit: this.narrow ? 4 : 8,
                                 maxRotation: 0
                             }
                         },
@@ -165,9 +185,13 @@
                     since.setMonth(since.getMonth() - 1)
                 }
 
-                const records = this.currentRange === 'all'
+                let records = this.currentRange === 'all'
                     ? this.records
                     : this.records.filter(record => record.x >= since)
+
+                if (this.currentRange === 'all' && this.narrow) {
+                    records = bucketLows(records, NARROW_BUCKET_DAYS)
+                }
 
                 return {
                     datasets: [
@@ -206,15 +230,20 @@
         methods: {
             updateTheme() {
                 this.theme = readTheme()
+            },
+            updateNarrow(event) {
+                this.narrow = event.matches
             }
         },
         mounted: async function () {
             lightScheme.addEventListener('change', this.updateTheme)
+            narrowScreen.addEventListener('change', this.updateNarrow)
 
             this.weekly = await fetchRecords('/api/records?interval=week')
         },
         unmounted() {
             lightScheme.removeEventListener('change', this.updateTheme)
+            narrowScreen.removeEventListener('change', this.updateNarrow)
         }
     }
 </script>

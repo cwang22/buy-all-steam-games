@@ -83,9 +83,7 @@
     <section class="info">
         <div>
             <h2>{{ __('How does it work?') }}</h2>
-            <p>{!! __('This page was inspired by :link, but it hasn\'t been updated since 2014.',
-                ['link' => '<a href="http://buyallofsteam.appspot.com/" target="_blank">buyallofsteam.appspot.com</a>']) !!}</p>
-            <p>{{ __('This page however is based on PHP and Laravel, and automatically fetch daily.') }}</p>
+            <p>{{ __('Once a day this page goes through every app on Steam with the Steam Web API and adds up the store prices to get both the discounted and the full-price totals.') }}</p>
         </div>
         <div>
             <h2>API</h2>
