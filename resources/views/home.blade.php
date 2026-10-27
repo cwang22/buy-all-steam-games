@@ -22,10 +22,12 @@
             @else
                 {{ __('Nothing is discounted right now.') }}
             @endif
-            {{ __('Prices from the :cc store, updated :created_at.', [
-                'cc' => $record->cc,
-                'created_at' => $record->created_at->diffForHumans(),
-            ]) }}
+            {{-- The page sits in Cloudflare's cache for up to a day, so app.js redoes this relative time in the browser. --}}
+            {!! __('Prices from the :cc store, updated :created_at.', [
+                'cc' => e($record->cc),
+                'created_at' => sprintf('<time datetime="%s">%s</time>',
+                    $record->created_at->toIso8601String(), e($record->created_at->diffForHumans())),
+            ]) !!}
         </p>
     </section>
 
