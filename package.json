@@ -6,7 +6,7 @@
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^6.0.10",
-        "chart.js": "^4.5.1",
+        "chart.js": "^4.6.1",
         "chartjs-adapter-date-fns": "^3.0.0",
         "date-fns": "^4.4.0",
         "laravel-vite-plugin": "^3.2.0",
