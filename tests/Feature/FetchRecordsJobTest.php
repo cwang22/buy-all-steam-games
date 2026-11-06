@@ -6,6 +6,8 @@ use App\Jobs\FetchRecords;
 use App\Models\Record;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Client\Request;
+use Illuminate\Queue\TimeoutExceededException;
+use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Sleep;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -127,5 +129,18 @@ class FetchRecordsJobTest extends TestCase
             'cURL error 60 for https://x/?max_results=1&key=[redacted] failed',
             AppServiceProvider::redactSteamKey('cURL error 60 for https://x/?max_results=1&key=ABC123 failed')
         );
+    }
+
+    #[Test]
+    public function it_reports_timeouts_but_not_other_failures()
+    {
+        Exceptions::fake();
+
+        $job = new FetchRecords('US');
+        $job->failed(new TimeoutExceededException('FetchRecords has timed out.'));
+        $job->failed(new RuntimeException('already reported by the worker'));
+
+        Exceptions::assertReported(TimeoutExceededException::class);
+        Exceptions::assertNotReported(RuntimeException::class);
     }
 }
