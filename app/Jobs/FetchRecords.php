@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\TimeoutExceededException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
@@ -28,6 +29,13 @@ class FetchRecords implements ShouldQueue
      * Keep it below the queue connection's retry_after (86400).
      */
     public int $timeout = 3 * 60 * 60;
+
+    /**
+     * Never retry: the scheduler dispatches a fresh run every day. The worker's
+     * --tries=3 would otherwise leave a timed-out job reserved and silently re-run
+     * it after retry_after (a day later), with no JobFailed event for Nightwatch.
+     */
+    public int $tries = 1;
 
     protected string $country;
 
@@ -146,6 +154,15 @@ class FetchRecords implements ShouldQueue
         } while (!empty($json['have_more_results']));
 
         return $appIds;
+    }
+
+    public function failed(Throwable $e): void
+    {
+        // The worker kills itself on timeout without going through the exception
+        // handler, so report it here. Other failures were already reported.
+        if ($e instanceof TimeoutExceededException) {
+            report($e);
+        }
     }
 
     public function store(int $original, int $sale)
