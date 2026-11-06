@@ -22,6 +22,13 @@ class FetchRecords implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    /**
+     * A full run is ~530 batches at ~3.5s each and grows with Steam's catalogue,
+     * so it outlasts the worker's --timeout. This overrides it for this job only.
+     * Keep it below the queue connection's retry_after (86400).
+     */
+    public int $timeout = 3 * 60 * 60;
+
     protected string $country;
 
     public function __construct(string $country)
